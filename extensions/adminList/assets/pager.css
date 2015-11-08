@@ -1,0 +1,83 @@
+
+.pager{
+  float: right;
+
+margin: 15px 5px 0 0;
+}
+ul.pagination
+{
+    font-size:11px;
+    border:0;
+
+    padding:0;
+
+    clear:both;
+    float: right;
+}
+
+ul.pagination li
+{
+    float: left;
+    list-style: none;
+    margin: 0 2px 5px 2px;
+
+
+}
+
+ul.pagination li a{
+    background: #f9f9f9;
+    background: -moz-linear-gradient(top,  #f9f9f9 0%, #eeeeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#eeeeee));
+    background: -webkit-linear-gradient(top,  #f9f9f9 0%,#eeeeee 100%);
+    background: -o-linear-gradient(top,  #f9f9f9 0%,#eeeeee 100%);
+    background: -ms-linear-gradient(top,  #f9f9f9 0%,#eeeeee 100%);
+    background: linear-gradient(top,  #f9f9f9 0%,#eeeeee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#eeeeee',GradientType=0 );
+    border: 1px solid #c3c3c3;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 4px 7px;
+    margin: 0 1px;
+    cursor: pointer;
+    *cursor: hand;
+    color: #606060;
+    font-size: 11px;
+    box-shadow: 0 1px 0 #fff inset, 0 1px 0px #dfdfdf;
+    -webkit-box-shadow: 0 1px 0 #fff inset, 0 1px 0px #dfdfdf;
+    -moz-box-shadow: 0 1px 0 #fff inset, 0 1px 0px #dfdfdf;
+
+}
+ul.pagination li a:hover{
+
+    background: #f6f6f6;
+    background: -moz-linear-gradient(top,  #f6f6f6 0%, #e8e8e8 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f6), color-stop(100%,#e8e8e8));
+    background: -webkit-linear-gradient(top,  #f6f6f6 0%,#e8e8e8 100%);
+    background: -o-linear-gradient(top,  #f6f6f6 0%,#e8e8e8 100%);
+    background: -ms-linear-gradient(top,  #f6f6f6 0%,#e8e8e8 100%);
+    background: linear-gradient(top,  #f6f6f6 0%,#e8e8e8 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#e8e8e8',GradientType=0 );
+
+}
+ul.pagination li.hidden{
+    display: none;
+}
+
+ul.pagination li.selected a{ background: #6f6f6f; color: #fff; border-color: #646464; box-shadow: 0 1px 2px #545454 inset, 0 1px 0 #fff; -webkit-box-shadow: 0 1px 2px #545454 inset, 0 1px 0 #fff; -moz-box-shadow: 0 1px 2px #545454 inset, 0 1px 0 #fff; font-weight: bold; }
+
+
+ul.pagination .previous,
+ul.pagination .next
+{
+    font-style: italic;
+    display: none;
+}
+
+ul.pagination .dots{
+
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 6px 3px 4px 3px;
+}

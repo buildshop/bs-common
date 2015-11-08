@@ -1,0 +1,34 @@
+
+
+#news-list{
+    margin-top: 30px;
+}
+#news-list .news-row{
+    text-align: right;
+    margin-bottom: 50px;
+}
+#news-list .news-row a.more{
+        font-size:14px;
+    font-family: 'Trebuchet MS';
+   
+}
+#news-list .news-row .news-title{
+    text-align: left;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size:17px;
+}
+.news-date{
+    font-style:italic;
+    font-size:12px;
+    font-family: 'Trebuchet MS';
+    color:#969696; 
+    text-align: left;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+#news-list .news-row .news-content{
+    color:#7d7d7d;
+    margin: 25px 10px 10px 50px;
+    text-align: left;
+}

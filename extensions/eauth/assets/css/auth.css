@@ -1,0 +1,105 @@
+/* Height hack for float wrappers */
+.services {
+	overflow: auto;
+}
+
+.auth-icon {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background-image: url("../images/social-sprite.png");
+	background-position: 0 0;
+	background-repeat: no-repeat;
+        background-size: 100%;
+}
+
+.auth-icon.google,
+.auth-icon.google_oauth {
+	background-position: 0 -48px;
+}
+
+.auth-icon.twitter {
+	background-position: 0 -120px;
+}
+
+.auth-icon.yandex,
+.auth-icon.yandex_oauth {
+	background-position: 0 -216px;
+}
+.auth-icon.facebook {
+	background-position: 0 -24px;
+}
+
+.auth-icon.vkontakte {
+	background-position: 0 0;
+}
+
+.auth-icon.mailru {
+	background-position: 0 -240px;
+}
+
+.auth-icon.moikrug {
+	background-position: 0 -312px;
+}
+
+.auth-icon.odnoklassniki {
+	background-position: 0 -192px;
+}
+
+.auth-icon.linkedin {
+	background-position: 0 -264px;
+}
+
+.auth-icon.github {
+	background-position: 0 -168px;
+}
+
+.auth-icon.live {
+	background-position: 0 -288px;
+}
+
+.auth-icon.yahoo {
+	background-position: 0 -96px;
+}
+
+.auth-icon.steam {
+	background-position: 0 -144px;
+}
+
+.auth-icon.dropbox {
+    background-position: 0 -72px;
+}
+
+.auth-link:hover .auth-icon,
+.auth-link:focus .auth-icon {
+
+}
+
+.auth-services {
+	margin: 0;
+	list-style: none;
+	/* Height hack for float wrappers */
+        padding: 0;
+	overflow: auto;
+}
+
+.auth-service {
+	float: left;
+	margin: 2px 2px 0 0;
+}
+
+.auth-services .auth-service .auth-link {
+	display: block;
+	width: 28px;
+	/*padding: 0 0.4em;*/
+}
+
+.auth-service .auth-link .auth-icon {
+	margin: 0 auto;
+}
+
+.auth-service .auth-link .auth-title {
+	display: block;
+	margin-top: 0.4em;
+	text-align: center;
+}
