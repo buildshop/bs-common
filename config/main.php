@@ -51,18 +51,7 @@ return array(
             'basePath' => $path . DS . 'messages'
         ),
         // 'runtimePath' => dirname(__DIR__) . '/../runtime',
-        'dbUser' => array(
-            'class' => 'app.DbConnection',
-            'connectionString' => 'mysql:host=corner.mysql.ukraine.com.ua;dbname=corner_buildshop',
-            'username' => 'corner_buildshop',
-            'password' => 'j3a2tnqy',
-            'tablePrefix' => 'panix_',
-            'charset' => 'utf8',
-            //   'autoConnect' => false,
-            'enableProfiling' => YII_DEBUG, // Disable in production
-            'enableParamLogging' => YII_DEBUG, // Disable in production
-            'schemaCachingDuration' => !YII_DEBUG ? 0 : 3600, //
-        ),
+        'dbUser' => require($path . '/config/_db.php'),
         'session' => array(
             'class' => 'app.DbHttpSession',
             'connectionID' => 'db',
