@@ -1,36 +1,37 @@
 <?php
 
 //core path
-//$path = dirname(__DIR__) . DS . '..' . DS . '..' . DS.'core';
+$commonPath = dirname(__DIR__) . DS . '..' . DS . '..' . DS.'common';
 $path = dirname(__DIR__);
+
 Yii::setPathOfAlias('baseController', Yii::getPathOfAlias('application.controllers'));
 return array(
-    // 'basePath' => dirname(__FILE__) . DS . '..',
+     //'basePath' => dirname(__FILE__) . DS . '..',
 
     'language' => 'ru',
     'name' => 'CORNER CMS',
     'preload' => array('log', 'maintenanceMode', 'ipblocker', 'package'),
     'import' => array(
-        'core.components.*',
-        'core.components.helpers.*',
-        'core.components.validators.*',
-        'core.modules.core.models.*',
-        'core.models.*',
-        'core.modules.users.models.User',
-        'core.modules.users.models.UserGroup',
-        'core.components.integration.forums.*',
-        'core.components.forms.*',
+        'common.components.*',
+        'common.components.helpers.*',
+        'common.components.validators.*',
+        'common.modules.core.models.*',
+        'common.models.*',
+        'common.modules.users.models.User',
+        'common.modules.users.models.UserGroup',
+        'common.components.integration.forums.*',
+        'common.components.forms.*',
     ),
     'controllerMap' => array(
-       'site' => 'baseCore.controllers.SiteController'
+       'site' => 'common.controllers.SiteController'
    ),
     'defaultController' => 'site',
     'aliases' => array(
-        'core' => $path,
-        'mod' => $path . DS . 'modules',
-        // 'mod' => 'application.modules',
-        'app' => $path . DS . 'components',
-        'ext' => $path . DS . 'extensions',
+       // 'core' => $path,
+        'common' => $path,
+        'mod' => 'common.modules',
+        'app' => 'common.components',
+        'ext' => 'common.extensions',
         'themes' => 'webroot.themes',
     ),
     'components' => array(
@@ -147,7 +148,7 @@ return array(
             ),
         ),
     ),
-    'params'=>array(
-        'support_email'=>array('andrew.panix@gmail.com')
-    )
+    //'params'=>array(
+    //    'support_email'=>array('andrew.panix@gmail.com')
+   // )
 );

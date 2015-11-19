@@ -15,7 +15,9 @@ class Package extends CComponent {
         $result = array();
         $value = Yii::app()->cache->get($this->cacheID);
         if ($value === false) {
+
             $user = BSUser::model()->findByPk(Yii::app()->params['client_id']);
+
             $result['expired'] = $user->shop[0]->expired;
             $result['plan'] = $user->shop[0]->plan;
             $result['isdemo'] = $user->shop[0]->getIsDemo();
@@ -42,15 +44,12 @@ class Package extends CComponent {
         return Yii::app()->cache->get($this->cacheID);
     }
 
-    //protected function getIsDemo() {
-    //    return (strtotime($this->expired) >= time()) ? true : false;
-    //}
 
     private function blocked() {
 
         if ((strtotime($this->expired) < time()) || !$this->result['user_active']) { // || $this->result['isdemo']
             Yii::app()->controllerMap['blocked'] = 'app.MaintenanceMode.BlockedController';
-            $capUrl = ($this->result['isdemo']) ? 'blocked/demo' : 'blocked/expired';
+            $capUrl = ($this->result['isdemo']) ? 'blocked/index' : 'blocked/expired';
             Yii::app()->catchAllRequest = array($capUrl);
         }
     }
