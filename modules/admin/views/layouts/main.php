@@ -254,12 +254,7 @@ app.message = {
                 </div>
                 <footer class="footer">
                     <p class="col-md-12 text-center">
-                        <?=
-                        Yii::t('app', 'COPYRIGHT', array(
-                            '{year}' => date('Y'),
-                            '{site_name}' => Html::link('BUILD SHOP', 'http://buildshop.net', array('target' => '_blank'))
-                        ));
-                        ?>
+                        {copyright}
                     </p>
                 </footer>
             </div>

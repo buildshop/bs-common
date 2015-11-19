@@ -51,4 +51,6 @@
             </div>                       
         </div>  
     </div>
+
 </div>
+<div class="text-center copyright">{copyright}</div>
