@@ -41,7 +41,6 @@ class Controller extends CController {
         return $this->_baseAssetsUrl;
     }
 
-
     /**
      * @return string Показывает информацию о сгенерируемой страницы.
      */
@@ -52,7 +51,7 @@ class Controller extends CController {
                     '{MEMORY}' => round(memory_get_peak_usage() / (1024 * 1024), 2),
                     '{DB_QUERY}' => $sql_stats[0],
                     '{DB_TIME}' => number_format($sql_stats[1], 2, '.', ' '),
-                ));
+        ));
     }
 
     /**
@@ -78,7 +77,6 @@ class Controller extends CController {
         }
         $this->_edit_mode = Yii::app()->session['edit_mode'];
     }
-
 
     /**
      * 
@@ -168,7 +166,7 @@ class Controller extends CController {
         $this->addComponents();
         $this->currentModule = $this->module->id;
         $config = Yii::app()->settings->get('core');
-        Yii::setPathOfAlias('currentTheme',  Yii::getPathOfAlias("themes.{$config['theme']}"));
+        Yii::setPathOfAlias('currentTheme', Yii::getPathOfAlias("themes.{$config['theme']}"));
         $this->backup();
         $this->registerAssets();
         parent::init();
@@ -252,69 +250,13 @@ class Controller extends CController {
         Yii::app()->user->setFlash('messages', CMap::mergeArray($currentMessages, array($message)));
     }
 
-    /*
-      protected function checkLicense() {
+    public function processOutput($output) {
+        if (!preg_match("#{copyright}#", $output)) {
+            die(Yii::t('app', 'NO_COPYRIGHT'));
+        }
+        $licens = Yii::t('app', 'COPYRIGHT', array('{year}' => date('Y')));
+        $output = str_replace("{copyright}", $css . $licens, $output);
+        return parent::processOutput($output);
+    }
 
-      $domain = Yii::app()->request->serverName;
-      $license = Yii::app()->settings->get('core', 'license_key');
-      $filePath = Yii::getPathOfAlias('webroot.protected.runtime') . "/tmp_license.txt";
-      if (file_exists($filePath)) {
-      $tmp = file_get_contents($filePath);
-      if ($tmp == md5(date('Ymd') . $domain . $license)) {
-      return true;
-      } else {
-      $this->connect();
-      }
-      } else {
-      $this->connect();
-      }
-      } */
-    /*
-      private function connect() {
-      $domain = Yii::app()->request->serverName;
-      $license = Yii::app()->settings->get('core', 'license_key');
-      $serverUrl = 'http://cms.corner.com.ua/license';
-      $filePath = Yii::getPathOfAlias('webroot.protected.runtime') . "/tmp_license.txt";
-      $fileTmpData = Yii::getPathOfAlias('webroot.protected.runtime') . "/tmp_data.txt";
-      $curl = Yii::app()->curl;
-      $curl->options = array(
-      'timeout' => 320,
-      'setOptions' => array(
-      CURLOPT_HEADER => false
-      )
-      );
-      $connent = $curl->run($serverUrl, array(
-      'format' => 'json',
-      'license' => $license,
-      'domain' => $domain,
-      'v' => Yii::app()->version,
-      'locale' => Yii::app()->language,
-      'email' => Yii::app()->settings->get('core', 'admin_email')
-      ));
-      if (!$connent->hasErrors()) {
-      $result = CJSON::decode($connent->getData());
-      if ($result['code'] == 0) {
-      $content = md5(date('Ymd') . $domain . $license);
-      $fp = fopen($filePath, "wb");
-      fwrite($fp, $content);
-      fclose($fp);
-
-
-      $fpData = fopen($fileTmpData, "wb");
-      fwrite($fpData, serialize($result['data']));
-      fclose($fpData);
-      } elseif ($result['code'] == 1) {
-      //вариант 1
-      Yii::app()->settings->set('core', array('site_close' => 1));
-      Yii::app()->settings->set('core', array('site_close_text' => $result['message']));
-      }
-      if (isset($result['message']))
-      $this->setFlashMessage($result['message']);
-      print_r($result);
-      } else {
-      $error = $connent->getErrors();
-      $this->setFlashMessage('Connect error: ' . $error->code . ': ' . $error->message);
-      print_r($error);
-      }
-      } */
 }
