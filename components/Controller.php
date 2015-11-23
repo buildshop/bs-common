@@ -251,8 +251,10 @@ class Controller extends CController {
     }
 
     public function processOutput($output) {
-        if (!preg_match("#{copyright}#", $output)) {
-            die(Yii::t('app', 'NO_COPYRIGHT'));
+        if (!Yii::app()->request->isAjaxRequest) {
+            if (!preg_match("#{copyright}#", $output)) {
+                die(Yii::t('app', 'NO_COPYRIGHT'));
+            }
         }
         $licens = Yii::t('app', 'COPYRIGHT', array('{year}' => date('Y')));
         $output = str_replace("{copyright}", $css . $licens, $output);

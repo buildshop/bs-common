@@ -35,7 +35,7 @@ return array(
     'NAME' => 'Имя',
     'FAVORITES' => 'Закладки',
     'PROFILE' => 'Профиль',
-    'AUTH' => 'Авторизация',
+
     'BTN_LOGIN'=>'Войти',
     'LOAD_AVA_PC'=>'Загрузить с компютера',
     'LOAD_AVA_GAL'=>'Загрузить с галереи',

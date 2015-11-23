@@ -21,7 +21,7 @@ class CoreModule extends WebModule {
                         'url' => Yii::app()->createUrl('core/admin/languages'),
                         'icon' => 'flaticon-lang',
                         'active' => ($c == 'admin/languages') ? true : false,
-                        'visible' => true,
+                        'visible' => false,
                     ),
                     array(
                         'label' => Yii::t('app', 'SETTINGS'),
@@ -69,7 +69,7 @@ class CoreModule extends WebModule {
                         'url' => Yii::app()->createUrl('core/admin/database'),
                         'icon' => 'flaticon-database',
                         'active' => ($c == 'admin/database') ? true : false,
-                        'visible' => true
+                        'visible' => false
                     ),
                     array(
                         'label' => Yii::t('app', 'SECURITY'),
@@ -83,7 +83,7 @@ class CoreModule extends WebModule {
                         'url' => Yii::app()->createUrl('core/admin/service'),
                         'icon' => 'flaticon-office',
                         'active' => ($c == 'admin/service') ? true : false,
-                        'visible' => true
+                        'visible' => false
                     ),
                 ),
             )

@@ -10,7 +10,9 @@
 Yii::import('mod.core.CoreModule');
 
 class AdminController extends Controller {
+
     public $isAjax;
+
     /**
      *
      * @var string 
@@ -41,6 +43,10 @@ class AdminController extends Controller {
      * @var array 
      */
     protected $_sidebarWidgets = array();
+
+    public function filters() {
+        return array('rights');
+    }
 
     public function init() {
         Yii::app()->user->loginUrl = array('/admin/auth');
@@ -76,7 +82,7 @@ class AdminController extends Controller {
             app.langauge="' . Yii::app()->language . '";
             app.token="' . Yii::app()->request->csrfToken . '";
             app.message=' . $config, CClientScript::POS_HEAD);
-    
+
 
         return true;
     }

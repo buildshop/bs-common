@@ -9,7 +9,7 @@ class UserLoginForm extends FormModel {
     public $password;
     public $rememberMe = false;
     private $_identity;
-    protected $_mid = 'users';
+    const MODULE_ID = 'users';
 
     /**
      * @return array

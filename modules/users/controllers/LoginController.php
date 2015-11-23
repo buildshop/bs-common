@@ -14,7 +14,7 @@ class LoginController extends Controller {
     }
 
     public function actionLogin() {
-        $this->pageName = Yii::t('UsersModule.default', 'AUTH');
+        $this->pageName = Yii::t('app', 'AUTH');
         $this->pageTitle = $this->pageName;
         $service = Yii::app()->request->getQuery('service');
         if (isset($service)) {
@@ -26,12 +26,11 @@ class LoginController extends Controller {
 
                 $identity = new ServiceUserIdentity($authIdentity);
                 // $identity = new EAuthUserIdentity($authIdentity);
-
                 // Успешный вход
                 if ($identity->authenticate()) {
-                     
+
                     Yii::app()->user->login($identity, Yii::app()->user->rememberTime);
-                   // die(print_r($identity->authenticate()));
+                    // die(print_r($identity->authenticate()));
                     // Специальный редирект с закрытием popup окна
                     $authIdentity->redirect();
                 } else {
@@ -55,11 +54,11 @@ class LoginController extends Controller {
         $view = (Yii::app()->request->isAjaxRequest) ? '_form' : 'login';
         if (Yii::app()->request->getIsPostRequest()) {
             $model->attributes = $_POST['UserLoginForm'];
-           
+
             // integration forum
-          //  CIntegrationForums::instance()->check_user($model->login, $model->password);
+            //  CIntegrationForums::instance()->check_user($model->login, $model->password);
             if ($model->validate()) {
-$duration = ($model->rememberMe) ? (int)Yii::app()->settings->get('core', 'cookie_time') : 0;
+                $duration = ($model->rememberMe) ? (int) Yii::app()->settings->get('core', 'cookie_time') : 0;
                 if (Yii::app()->user->login($model->getIdentity(), $duration)) {
                     if (Yii::app()->request->isAjaxRequest) {
                         $view = 'ajax_success_login';
@@ -68,9 +67,9 @@ $duration = ($model->rememberMe) ? (int)Yii::app()->settings->get('core', 'cooki
                     }
                 } else {
                     // if (count(User::model()->findByAttributes(array('password' => User::encodePassword($model->password)))) < 1)
-                    //     $model->addError('login', Yii::t('UsersModule.default', 'INCORRECT_LOGIN_OR_PASS'));
+                    //     $model->addError('login', Yii::t('default', 'INCORRECT_LOGIN_OR_PASS'));
                     if (count(User::model()->findByAttributes(array('login' => $model->login))) < 1 || count(User::model()->findByAttributes(array('password' => User::encodePassword($model->password)))) < 1)
-                        $model->addError('login', Yii::t('UsersModule.default', 'INCORRECT_LOGIN_OR_PASS'));
+                        $model->addError('login', Yii::t('app', 'INCORRECT_LOGIN_OR_PASS'));
                 }
             }
         }
