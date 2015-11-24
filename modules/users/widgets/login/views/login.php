@@ -68,7 +68,7 @@ close:function(){
                 echo Html::closeTag('li');
             }
             ?>
-            <li><?= Html::link('<span class="icon-exit"></span>' . Yii::t('core', 'LOGOUT'), Yii::app()->createUrl('/users/logout/')); ?></li>
+            <li><?= Html::link('<span class="icon-exit"></span>' . Yii::t('app', 'LOGOUT'), Yii::app()->createUrl('/users/logout/')); ?></li>
         </ul>
     </li>
     <?php

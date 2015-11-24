@@ -17,5 +17,5 @@ return array(
     'MODULE_DESC' => 'Сравнение',
     'ADD_COMPARE' => 'Сравнить',
     'COMPARE_EMPTY' => 'Список сравнений пуст.',
-    'COMPARE' => 'Сравнений (<span id="countCompare">{num}</span>)',
+    'COMPARE' => 'Сравнений',
 );

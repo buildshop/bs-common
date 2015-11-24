@@ -18,5 +18,5 @@ return array(
     'ADD_WISHLIST' => 'В список желаний',
     'WISHLIST_EMPTY' => 'Список желаний пустой.',
     'MY_WISHLIST' => 'Мой список желаний',
-    'WISHLIST' => 'Желаний (<span id="countWishlist">{num}</span>)',
+    'WISHLIST' => 'Желаний',
 );
