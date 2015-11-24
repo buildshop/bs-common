@@ -20,10 +20,11 @@ if ($sended)
     <?php echo $form->label($model, 'phone', array('class' => 'sr-only')); ?>
     <?php echo $form->textField($model, 'phone', array('class' => 'form-control', 'placeholder' => '(xxx) xxx xx xx')); ?>
 </div>
+<div class="text-center">
 <?php echo Html::Button(Yii::t('CallbackWidget.default', 'CALLBACK_BUTTON_SEND'), array('onclick' => 'callbackSend();', 'class' => 'btn btn-primary wait')); ?>
 
 
-
+</div>
 
 
 <?php $this->endWidget(); ?>

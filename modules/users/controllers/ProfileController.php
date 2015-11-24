@@ -114,20 +114,10 @@ class ProfileController extends Controller {
                     'id' => 'changepass',
                     'visible' => true
                 ),
-                Yii::t('UsersModule.default', 'FRIENDS') => array(
-                    'ajax' => $this->createAbsoluteUrl('friends/index'),
-                    'id' => 'friends',
-                    'visible' => $uConfig['friends'] && false
-                ),
                 Yii::t('UsersModule.default', 'FAVORITES') => array(
                     'ajax' => $this->createAbsoluteUrl('favorites/index'),
                     'id' => 'favorites',
                     'visible' => $uConfig['favorites'] && false
-                ),
-                Yii::t('UsersModule.default', 'MESSAGES') => array(
-                    'ajax' => $this->createAbsoluteUrl('/message/inbox'),
-                    'id' => 'message',
-                    'visible' => Yii::app()->user->message && false
                 ),
             );
             $tabs = array();

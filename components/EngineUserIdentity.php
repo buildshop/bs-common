@@ -13,7 +13,7 @@ class EngineUserIdentity extends CUserIdentity {
 
     public function authenticate() {
 
-        $record = User::model()->findByAttributes(array('login' => $this->username));
+        $record = User::model()->with('group')->findByAttributes(array('login' => $this->username));
         if ($record === null)
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         else if ($record->banned === '1')
@@ -28,6 +28,7 @@ class EngineUserIdentity extends CUserIdentity {
             $record->save(false,false,false);
             $this->setState('id', $record->id);
             $this->setState('username', $record->login);
+            $this->setState('roles', $record->group->alias);
 
             $this->errorCode = self::ERROR_NONE;
         }

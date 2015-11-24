@@ -189,10 +189,6 @@ class BaseUser extends WebUser {
         return $this->_model->service;
     }
 
-    public function getMessage() {
-        $this->_loadModel();
-        return $this->_model->message;
-    }
 
     /**
      * Load user model

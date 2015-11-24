@@ -50,10 +50,11 @@ class RegisterController extends Controller {
                 $user->email = $user->login;
             $user->active = ($config['register_nomail']) ? 1 : 0;
             if ($user->validate()) {
-                
+              //  $user->group_id=3; //add to User to group_id;
                 if ($user->save()) {
-                    Yii::app()->authManager->assign('Authenticated', $user->id);
-                    CIntegrationForums::instance()->register($user->login, $_POST['User']['password'], $user->email);
+                    
+                    //Yii::app()->authManager->assign('Authenticated', $user->id);
+                   // CIntegrationForums::instance()->register($user->login, $_POST['User']['password'], $user->email);
                 }
                 // Add user to authenticated group
                 
@@ -62,12 +63,14 @@ class RegisterController extends Controller {
                 $identity = new EngineUserIdentity($user->login, $_POST['User']['password']);
                 if ($identity->authenticate()) {
 
-                    Yii::app()->user->login($identity, Yii::app()->user->rememberTime);
+                    Yii::app()->user->login($identity, 3600 * 24 * 7);
                     if ($config['register_nomail']) {
                         Yii::app()->request->redirect($this->createUrl('/users/profile/index'));
                     } else {
                         //  $this->sendMail($_POST['User']['email']);
-                        $view = 'success_register';
+                        Yii::app()->user->setFlash('success','Вы успешно зарегистрировались.');
+                        Yii::app()->request->redirect($this->createUrl('/users/profile'));
+                      //  $view = 'success_register';
                     }
                 } else {
                     die('authenticate(): Error');

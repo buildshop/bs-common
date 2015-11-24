@@ -22,5 +22,5 @@ return array(
     'ERROR_PRODUCT_NOTFOUND' => 'Продукт не найден.',
     'RESET_FILTERS_BTN' => 'Сбросить фильтры',
     'CURRENT_FILTER_TITLE' => 'Выбранные фильтры',
-    'PRODUCT_LABEL' => '1#Новый|2#Хит|3#Акция'
+
 );

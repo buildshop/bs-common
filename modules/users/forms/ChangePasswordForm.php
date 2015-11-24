@@ -2,7 +2,7 @@
 
 class ChangePasswordForm extends FormModel {
 
-    protected $_mid = 'users';
+    const MODULE_ID = 'users';
 
     /**
      * @var string

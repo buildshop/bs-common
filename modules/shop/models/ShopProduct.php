@@ -116,7 +116,7 @@ class ShopProduct extends ActiveRecord {
 
     public function getProductLabel() {
         $result = array();
-        $result['label'] = Yii::t('ShopModule.default', 'PRODUCT_LABEL', $this->label);
+        $result['label'] = Yii::t('app', 'PRODUCT_LABEL', $this->label);
         switch ($this->label) {
             case 1:
                 $result['class'] = 'new';
