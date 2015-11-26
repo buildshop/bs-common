@@ -6,19 +6,10 @@ class DefaultController extends AdminController {
 
     public function actionIndex() {
         $this->pageName = Yii::t('ContactsModule.default', 'MODULE_NAME');
+
+        $this->breadcrumbs = array($this->pageName);
         $model = new ConfigContactForm;
         $post = $_POST['ConfigContactForm'];
-        
-        
-                $this->topButtons = array(
-            array('label' => Yii::t('core', 'RESET_SETTINGS'),
-                'url' => $this->createUrl('resetSettings', array(
-                    'model' => get_class($model),
-                )),
-                'htmlOptions' => array('class' => 'buttonS bDefault')
-            )
-        );
-                
         if (isset($post)) {
             $model->attributes = $post;
             if ($model->validate()) {

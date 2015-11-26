@@ -2,23 +2,27 @@
 
 Yii::import('mod.contacts.widgets.map.CMapWidget');
 
-class MapWidget extends CMapWidget {
+class MapStaticWidget extends CMapWidget {
+
+    public $pk;
 
     const MAP_VERION = '2.1';
 
     public function run() {
         $cs = Yii::app()->clientScript;
-        $maps = ContactsMaps::model()->findAll();
-        foreach ($maps as $map) {
-            
-            $mapID = __CLASS__ . $map->id;
-            $this->options[$mapID] = $this->getOptions($map);
-            $this->renderMap($mapID, $this->options[$mapID]);
+        $map = ContactsMaps::model()->findByPk($this->pk);
+        if ($map) {
 
-            $cs->registerScript($mapID, "
+
+            $this->setId(__CLASS__ . $map->id);
+
+            $options = CMap::mergeArray($this->getOptions($map), $this->options);
+            $this->renderMap($this->id, $options);
+
+            $cs->registerScript($this->id, "
     var markers = " . CJSON::encode($this->getMapMarkers($map)) . ";
-    var mapID = '" . $mapID . "';
-    var mapOptions = " . CJavaScript::encode($this->options[$mapID]) . ";
+    var mapID = '" . $this->id . "';
+    var mapOptions = " . CJavaScript::encode($options) . ";
     api.addMap(mapID,mapOptions);
     var min_x=999;
     var max_x=0;
@@ -32,6 +36,10 @@ class MapWidget extends CMapWidget {
         if(max_x < marker.coordx) max_x = marker.coordx;
         if(max_y < marker.coordy) max_y = marker.coordy;
     });
+    
+
+
+
     if(markers.length > 1){
         api.setBounds([[min_y,min_x],[max_y,max_x]],mapID);
         api.setZoomMap(mapOptions.zoom,mapID);

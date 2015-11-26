@@ -1,130 +1,109 @@
 
-<style>
-    #container-contancts{
-        position: relative;
-        min-height: 990px;
-    }
-    #container-contancts #map,
-    #container-contancts .info{
-
-        text-align: center;
-    }
-    #container-contancts #map{
-        z-index: 1;
-        position: absolute;
-    }
-    #container-contancts .info{
-        background: #fff;
-        padding:20px 40px;
-        width: 325px;
-        position: absolute;
-        margin-top: 30px;
-    }
-    #container-contancts .info b{
-        font-size:20px;
-    }
-    #container-contancts .info span{
-        color:#919191;
-        font-size:13px;
-    }
-    #container-contancts .info p {
-        font-size:16px;
-        color:#4f4d4a;
-        margin: 30px 0;
-    }
-    #container-contancts .info form{
-        margin-top: 30px;
-    }
-    #container-contancts .info .phone{
-        color:#32ca77;
-        margin-bottom: 5px;
-    }
-    #container-contancts .info .phone:last-child{
-        margin-bottom: 0;
-    }
-</style>
-
-
-<h1>Контактная информация</h1>
-
-<div id="container-contancts">
-    <?php //$this->widget('mod.contacts.widgets.offices.OfficeWidget');  ?>
-    <?php $this->widget('mod.contacts.widgets.map.MapWidget'); ?>
-    <div class="indent2" style="position:relative;z-index: 2;top: 40px;">
-        
-        
-    <div class="info">
-        <b>Мы находимся по адресу</b>
-        <p>
-            <?= $this->oneoffice->address?>
-        </p>
-        <span>звоните нам</span>
+<?php
+$contact = Yii::app()->settings->get('contacts');
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-6">
+        <div class="text-center">
+            <h3><?= Yii::t('ContactsModule.default', 'CONTACT_INFO') ?></h3>
+        </div>
         <?php
-        foreach (explode(',', $this->oneoffice->phones) as $phone) { ?>
-    <div class="phone"><?= $phone ?></div>
-
-      <?php } ?>
+        $this->widget('mod.contacts.widgets.map.MapStaticWidget', array('pk' => 1));
+        ?>
+        <hr/>
+        <?php if ($contact['phone']) { ?>
+            <div><?= Yii::t('ContactsModule.ConfigContactForm', 'PHONE') ?>: <?= $contact['phone'] ?></div>
+        <?php } ?>
+        <?php if ($contact['skype']) { ?>
+            <div><?= Yii::t('ContactsModule.ConfigContactForm', 'SKYPE') ?>: <?= $contact['skype'] ?></div>
+        <?php } ?>
+        <?php if ($contact['address']) { ?>
+            <div><?= Yii::t('ContactsModule.ConfigContactForm', 'ADDRESS') ?>: <?= $contact['address'] ?></div>
+        <?php } ?>
+        <hr/>
     </div>
-    <div class="info" style="top:255px;">
-                <h3>Написать нам</h3>
+
+    <div class="col-md-12  col-sm-12">
+
+        <div class="text-center">
+            <h4><?= Yii::t('ContactsModule.default', 'FB_FORM_NAME') ?></h4>
+        </div>
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'contact_form',
+            'enableAjaxValidation' => false, // Disabled to prevent ajax calls for every field update
+            'enableClientValidation' => true,
             'clientOptions' => array(
-                'validateOnSubmit' => true
+                'validateOnSubmit' => true,
+                'validateOnChange' => true,
+                'errorCssClass' => 'has-error',
+                'successCssClass' => 'has-success',
             ),
-            'htmlOptions' => array('name' => 'contact_form', 'class' => 'form fluid')
-                ));
-        ?>
+            'htmlOptions' => array('name' => 'contact_form', 'class' => '')
+        ));
 
-
-        <?php
         if ($model->hasErrors())
-            Yii::app()->tpl->alert('failure', Html::errorSummary($model));
+            Yii::app()->tpl->alert('danger', Html::errorSummary($model));
+
+        if (Yii::app()->user->hasFlash('success')) {
+            Yii::app()->tpl->alert('success', Yii::app()->user->getFlash('success'));
+        }
+        
+
         ?>
-        <div class="row">
-            <div class="grid12"><?= $form->labelEx($model, 'name'); ?><br/><?= $form->textField($model, 'name'); ?></div>
-            <div class="clear"></div>
+        <div class="form-group">
+            <?= $form->labelEx($model, 'name'); ?>
+            <?= $form->textField($model, 'name', array('class' => 'form-control', 'placeholder' => $model->getAttributeLabel('name'))); ?>
+            <?= $form->error($model, 'name'); ?>
         </div>
-        <div class="row">
-            <div class="grid12"><?= $form->labelEx($model, 'email'); ?><br/><?= $form->textField($model, 'email'); ?></div>
-            <div class="clear"></div>
+        <div class="form-group">
+            <?= $form->labelEx($model, 'phone'); ?>
+            <?= $form->textField($model, 'phone', array('class' => 'form-control', 'placeholder' => $model->getAttributeLabel('phone'))); ?>
+            <?= $form->error($model, 'phone'); ?>
         </div>
-        <div class="row">
-            <div class="grid12"><?= $form->labelEx($model, 'msg'); ?><br/><?= $form->textArea($model, 'msg'); ?></div>
-            <div class="clear"></div>
+        <div class="form-group">
+            <?= $form->labelEx($model, 'email'); ?>
+            <?= $form->textField($model, 'email', array('class' => 'form-control', 'placeholder' => $model->getAttributeLabel('email'))); ?>
+            <?= $form->error($model, 'email'); ?>
         </div>
-                <div class="row">
-                    <div class="grid6"><?php
-        $this->widget('CCaptcha', array(
-            'clickableImage' => true,
-            'showRefreshButton' => false,
-        ))
-        ?></div>
-            <div class="grid6"><?php echo Html::activeLabelEx($model, 'verifyCode') ?><br/><?php echo CHtml::activeTextField($model, 'verifyCode') ?></div>
-            <div class="clear"></div>
-        </div>
-
-                <div class="row">
-            <div class="grid12"><?= Html::submitButton(Yii::t('default', 'SEND'), array('class' => 'btn btn-default')); ?></div>
-            <div class="clear"></div>
+        <div class="form-group">
+            <?= $form->labelEx($model, 'msg'); ?>
+            <?= $form->textArea($model, 'msg', array('class' => 'form-control', 'rows' => '5', 'placeholder' => $model->getAttributeLabel('msg'))); ?>
+            <?= $form->error($model, 'msg'); ?>
         </div>
 
 
-<?php $this->endWidget(); ?>
+
+
+        <?php if (Yii::app()->settings->get('contacts', 'enable_captcha')) { ?>
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <?= $form->labelEx($model, 'verifyCode', array('class' => '')) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?php
+                    $this->widget('CCaptcha', array(
+                        'imageOptions' => array('class' => 'captcha'),
+                        'clickableImage' => true,
+                        'showRefreshButton' => false,
+                    ))
+                    ?>
+
+                </div>
+                <div class="col-sm-5">   
+                    <?= $form->textField($model, 'verifyCode', array('class' => 'form-control')) ?>
+                    <?= $form->error($model, 'verifyCode', array(), false, false) ?>
+                </div>
+            </div>
+        <?php } ?>
+
+        <div class="text-center">
+            <?= Html::submitButton(Yii::t('app', 'SEND_MSG'), array('class' => 'btn btn-default')); ?>
+        </div>
+        <?php $this->endWidget(); ?>
     </div>
-        
-        
-        
-        
-        
-        
-        
-        
-    </div>
+
+
 
 </div>
-
-
-
 

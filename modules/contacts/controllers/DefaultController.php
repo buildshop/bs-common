@@ -2,8 +2,6 @@
 
 class DefaultController extends Controller {
 
-
-
     public function actions() {
         return array(
             'captcha' => array(
@@ -13,22 +11,22 @@ class DefaultController extends Controller {
         );
     }
 
-
-
     public function actionIndex() {
         $this->breadcrumbs = array(Yii::t('ContactsModule.default', 'MODULE_NAME'));
-        $config = Yii::app()->settings->get('contacts');
-        $this->pageKeywords = $config['seo_keywords'];
-        $this->pageDescription = $config['seo_description'];
-        $this->pageTitle = $config['seo_title'];
         $model = new ContactForm;
+        $this->performAjaxValidation($model, 'contact_form');
+
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if (Yii::app()->request->isPostRequest && $model->validate()) {
+
                 $model->sendMessage();
-                $this->addFlashMessage(Yii::t('ContactsModule.default', 'MESSAGE_SUCCESS'));
+                $model->unsetAttributes();
+                Yii::app()->user->setFlash('success', Yii::t('ContactsModule.default', 'MESSAGE_SUCCESS'));
+                //  $this->addFlashMessage(Yii::t('ContactsModule.default', 'MESSAGE_SUCCESS'));
             } else {
-                $this->addFlashMessage(Yii::t('ContactsModule.default', 'MESSAGE_FAIL'));
+                //$this->addFlashMessage(Yii::t('ContactsModule.default', 'MESSAGE_FAIL'));
+                Yii::app()->user->setFlash('error', Yii::t('ContactsModule.default', 'MESSAGE_FAIL'));
             }
         }
         $this->render('index', array('model' => $model, 'config' => $config));

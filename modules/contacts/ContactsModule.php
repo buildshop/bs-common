@@ -2,59 +2,27 @@
 
 class ContactsModule extends WebModule {
 
+    const MODULE_ICON = 'flaticon-phone-call';
+
     public function init() {
         $this->setImport(array(
             $this->id . '.models.*'
         ));
     }
 
-    public function initAdmin() {
-        $this->publishAdminAssets();
-        parent::initAdmin();
-    }
-
     public function afterInstall() {
-
         Yii::app()->database->import($this->id);
-
-        Yii::app()->settings->set($this->id, array(
-            'form_emails' => 'andrew.panix@gmail.com',
-            'tempMessage' => '<p>Имя отправителя: <strong>[SENDER_NAME]</strong></p>
-<p>Email отправитиля: <strong>[SENDER_EMAIL]</strong></p>
-<p>Телефон: <strong>[SENDER_PHONE]</strong></p>
-<p>==============================</p>
-<p><strong>Сообщение:</strong></p>
-<p>[SENDER_MESSAGE]</p>',
-            'address' => '',
-            'phone' => '',
-            'skype' => '',
-            'seo_title' => 'Контактная информация',
-            'seo_keywords' => 'Контактная информация',
-            'seo_description' => 'Контактная информация',
-            'yandex_map_zoomControl' => 1,
-            'yandex_map_zoomControl_top' => 40,
-            'yandex_map_zoomControl_left' => 5,
-            'yandex_map_typeSelector' => 1,
-            'yandex_map_typeSelector_top' => 5,
-            'yandex_map_typeSelector_right' => 5,
-            'yandex_map_mapTools' => 1,
-            'yandex_map_mapTools_top' => 5,
-            'yandex_map_mapTools_left' => 5,
-            'yandex_map_zoom' => 17,
-            'yandex_map_width' => 150,
-            'yandex_map_height' => 350,
-            'yandex_map_center' => '46.4886, 30.7353',
-            'yandex_map_balloon_content' => 'content my balloon',
-        ));
-        Yii::app()->intallComponent('contact', 'mod.contacts.components.ContactComponent');
+        Yii::app()->settings->set($this->id, ConfigContactForm::defaultSettings());
         return parent::afterInstall();
     }
 
     public function afterUninstall() {
         Yii::app()->settings->clear('contacts');
-        Yii::app()->unintallComponent('contact');
         $db = Yii::app()->db;
-        $db->createCommand()->dropTable(ContactsOffice::model()->tableName());
+        $db->createCommand()->dropTable(ContactsMaps::model()->tableName());
+        $db->createCommand()->dropTable(ContactsMarkers::model()->tableName());
+        $db->createCommand()->dropTable(ContactsRouter::model()->tableName());
+        $db->createCommand()->dropTable(ContactsRouterTranslate::model()->tableName());
         return parent::afterUninstall();
     }
 
@@ -72,7 +40,7 @@ class ContactsModule extends WebModule {
                         'label' => Yii::t('ContactsModule.default', 'MODULE_NAME'),
                         'visible' => Yii::app()->user->isSuperuser,
                         'url' => array('/contacts/admin/default'),
-                        'icon' => 'flaticon-telephone',
+                        'icon' => self::MODULE_ICON,
                     ),
                 )
             )
@@ -85,18 +53,31 @@ class ContactsModule extends WebModule {
             array(
                 'label' => Yii::t('ContactsModule.default', 'MODULE_NAME'),
                 'url' => Yii::app()->createUrl('contacts/admin/default'),
-                'active' => ($c == 'admin/contacts') ? true : false,
-                'icon' => 'flaticon-telephone',
+                'active' => $this->hasActive('admin/contacts'),
+                'icon' => self::MODULE_ICON,
                 'visible' => Yii::app()->user->isSuperuser
             ),
             array(
-                'label' => Yii::t('ContactsModule.admin', 'OFFICE', 1),
-                'url' => Yii::app()->createUrl('contacts/admin/office/index'),
-                'active' => ($c == 'admin/office') ? true : false,
+                'label' => Yii::t('ContactsModule.default', 'MAPS'),
+                'url' => Yii::app()->createUrl('contacts/admin/maps/index'),
+                'active' => $this->hasActive('admin/maps'),
+                'icon' => 'flaticon-map',
+                'visible' => Yii::app()->user->isSuperuser
+            ),
+            array(
+                'label' => Yii::t('ContactsModule.default', 'MARKERS'),
+                'url' => Yii::app()->createUrl('contacts/admin/markers/index'),
+                'active' => $this->hasActive('admin/markers'),
                 'icon' => 'flaticon-map-2',
                 'visible' => Yii::app()->user->isSuperuser
-)
-
+            ),
+            array(
+                'label' => Yii::t('ContactsModule.default', 'ROUTER'),
+                'url' => Yii::app()->createUrl('contacts/admin/router/index'),
+                'active' => $this->hasActive('admin/router'),
+                'icon' => 'flaticon-location-route',
+                'visible' => Yii::app()->user->isSuperuser
+            ),
         );
     }
 
@@ -104,21 +85,11 @@ class ContactsModule extends WebModule {
         return array(
             'name' => Yii::t('ContactsModule.default', 'MODULE_NAME'),
             'author' => 'andrew.panix@gmail.com',
-            'version' => '2.0',
-            'icon' => 'flaticon-telephone',
+            'version' => '3.0',
+            'icon' => self::MODULE_ICON,
             'description' => Yii::t('ContactsModule.default', 'MODULE_DESC'),
             'url' => Yii::app()->createUrl('/contacts/admin/default/index'),
         );
-    }
-
-    public function publishAdminAssets() {
-        $assets = dirname(__FILE__) . '/assets';
-        $baseUrl = Yii::app()->assetManager->publish($assets, false, -1, YII_DEBUG);
-        if (is_dir($assets)) {
-            Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/admin_contacts.js', CClientScript::POS_HEAD);
-        } else {
-            throw new Exception(__CLASS__ . ' - Error: Couldn\'t find assets to publish.');
-        }
     }
 
 }

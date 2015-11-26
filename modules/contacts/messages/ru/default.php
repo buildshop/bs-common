@@ -3,14 +3,13 @@
 return array(
     'MODULE_NAME' => 'Контакты',
     'MODULE_DESC' => 'Управление и настройка контактов',
-    'FIELD_NAME' => 'Имя',
-    'FIELD_EMAIL' => 'Почта',
-    'FIELD_MSG' => 'Сообщение',
-    'FIELD_PHONE' => 'Телефон',
-    'FIELD_CODE' => 'Код капчи',
     'MESSAGE_SUCCESS' => 'Ваше сообщение успешно отправлено!',
     'MESSAGE_FAIL' => 'Ошибка',
-    /* Форма обратной связи */
+    'MAPS' => 'Карты',
+    'MARKERS' => 'Маркеры',
+    'ROUTER' => 'Маршрутизатор',
+    'NO_MAPS' => 'Создайте для начало карту.',
+    'CONTACT_INFO' => 'Контактная информация',
     'FB_FORM_NAME' => 'Форма обратной связи',
-    'FB_FROM_MESSAGE' => 'Сообщение от {name}',
+    'FB_FROM_MESSAGE' => 'Сообщение с сайта {site_name} от {name}',
 );

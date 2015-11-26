@@ -3,76 +3,57 @@
 class ConfigContactForm extends FormModel {
 
     const MODULE_ID = 'contacts';
+
     public $sendMail;
     public $address;
     public $tempMessage;
     public $phone;
     public $skype;
     public $form_emails;
+    public $enable_captcha;
 
-    public $seo_title;
-    public $seo_keywords;
-    public $seo_description;
     public static function defaultSettings() {
         return array(
-            'form_emails' => 'andrew.panix@gmail.com'
+            'form_emails' => 'andrew.panix@gmail.com',
+            'tempMessage' => '<p>Имя отправителя: <strong>{sender_name}</strong></p>
+                <p>Email отправитиля: <strong>{sender_email}</strong></p>
+                <p>Телефон: <strong>{sender_phone}</strong></p>
+                <p>==============================</p>
+                <p><strong>Сообщение:</strong></p>
+                <p>{sender_message}</p>',
+            'address' => '',
+            'phone' => '',
+            'skype' => '',
+            'enable_captcha'=>1
         );
     }
+
     public function getForm() {
         Yii::app()->controller->widget('ext.tinymce.TinymceWidget');
+        Yii::import('ext.TagInput');
         return new TabForm(array(
-                                'attributes' => array(
-                        'class' => 'form-horizontal',
+                    'attributes' => array(
                         'id' => __CLASS__,
+                        'class' => 'form-horizontal',
                     ),
                     'showErrorSummary' => true,
                     'elements' => array(
-                        'seo' => array(
+                        'general' => array(
                             'type' => 'form',
-                            'title' => Yii::t('ContactsModule.core', 'Мета данные'),
+                            'title' => self::t('TAB_GENERAL'),
                             'elements' => array(
-                                'seo_title' => array(
-                                    'type' => 'text',
-                                ),
-                                'seo_keywords' => array(
-                                    'type' => 'textarea',
-                                ),
-                                'seo_description' => array(
-                                    'type' => 'textarea',
-                                ),
+                                'skype' => array('type' => 'text'),
+                                'phone' => array('type' => 'text'),
+                                'address' => array('type' => 'text'),
                             ),
                         ),
                         'form_feedback' => array(
                             'type' => 'form',
-                            'title' => Yii::t('contactsModule.core', 'Форма обратной связи'),
+                            'title' => self::t('TAB_FB'),
                             'elements' => array(
-                                'form_emails' => array('type' => 'text'),
+                                'form_emails' => array('type' => 'TagInput'),
                                 'tempMessage' => array('type' => 'textarea', 'class' => 'editor'),
-                            ),
-                        ),
-                        'map' => array(
-                            'type' => 'form',
-                            'title' => Yii::t('contactsModule.core', 'Карта'),
-                            'elements' => array(
-                                'switch' => array(
-                                    'type' => 'dropdownlist',
-                                    'items' => array('0' => 'no', '1' => 'yes')
-                                ),
-                                'yandex_map_zoomControl' => array('type' => 'checkbox'),
-                                'yandex_map_zoom' => array('type' => 'dropdownlist', 'items' => range(1, 17)),
-                                'yandex_map_zoomControl_top' => array('type' => 'text'),
-                                'yandex_map_zoomControl_left' => array('type' => 'text'),
-                                'yandex_map_center' => array('type' => 'text'),
-                                'yandex_map_balloon_content' => array('type' => 'text'),
-                                'yandex_map_height' => array('type' => 'text'),
-                                'yandex_map_width' => array('type' => 'text'),
-                                'yandex_map_typeSelector' => array('type' => 'checkbox'),
-                                'yandex_map_typeSelector_top' => array('type' => 'text'),
-                                'yandex_map_typeSelector_right' => array('type' => 'text'),
-                                
-                                'yandex_map_mapTools' => array('type' => 'checkbox'),
-                                'yandex_map_mapTools_top' => array('type' => 'text'),
-                                'yandex_map_mapTools_left' => array('type' => 'text'),
+                                  'enable_captcha' => array('type' => 'checkbox'),
                             ),
                         ),
                     ),
@@ -92,20 +73,14 @@ class ConfigContactForm extends FormModel {
 
     public function rules() {
         return array(
-            array('form_emails, yandex_map_zoom', 'required'),
-            array('yandex_map_zoomControl_top, yandex_map_zoomControl_left, yandex_map_zoomControl', 'numerical', 'integerOnly' => true),
-            array('yandex_map_typeSelector_top, yandex_map_typeSelector_right, yandex_map_typeSelector', 'numerical', 'integerOnly' => true),
-            array('yandex_map_mapTools_top, yandex_map_mapTools_left, yandex_map_mapTools', 'numerical', 'integerOnly' => true),
-            array('yandex_map_zoom, yandex_map_height, yandex_map_width', 'numerical', 'integerOnly' => true),
-            array('seo_title, seo_keywords, seo_description, tempMessage, address, phone, skype, yandex_map_center, yandex_map_balloon_content', 'type', 'type' => 'string'),
+                        array('enable_captcha', 'boolean'),
+            array('form_emails, tempMessage', 'required'),
+            array('tempMessage, address, phone, skype', 'type', 'type' => 'string'),
             array('sendMail', 'match', 'pattern' => '/^[\da-z][-_\d\.a-z]*@(?:[\da-z][-_\da-z]*\.)+[a-z]{2,5}$/iu'),
         );
     }
 
-    /**
-     * Save settings
-     */
-    public function save($message=true) {
+    public function save($message = true) {
         Yii::app()->settings->set('contacts', $this->attributes);
         parent::save($message);
     }
