@@ -18,19 +18,19 @@ $this->widget('ext.adminList.GridView', array(
             'name' => 'checkbox',
             'type' => 'raw',
             'header' => '',
-            'class' => 'SGridIdColumn',
+            'class' => 'IdColumn',
         ),
         array(
             'name' => 'name',
             'type' => 'raw',
             'header' => 'Название поля',
-            'htmlOptions' => array('class' => 'textL'),
+            'htmlOptions' => array('class' => 'text-left'),
         ),
         array(
             'name' => 'sort',
             'type' => 'raw',
             'header' => 'Сортировка',
-            'htmlOptions' => array('class' => 'textL','style'=>'width:60px'),
+            'htmlOptions' => array('class' => 'text-left','style'=>'width:60px'),
         ),
     )
         )

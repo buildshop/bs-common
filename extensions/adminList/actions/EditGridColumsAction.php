@@ -14,7 +14,7 @@ class EditGridColumsAction extends CAction {
             //Yii::app()->clientScript->registerCoreScript('jquery.ui');
             Yii::app()->clientScript->scriptMap = array(
                 'jquery.js' => false,
-                'jquery.ba-bbq.js'=>false,
+                'jquery.ba-bbq.js' => false,
             );
             $modelClass = $_POST['model'];
             $grid_id = $_POST['grid_id'];
@@ -27,11 +27,11 @@ class EditGridColumsAction extends CAction {
                 foreach ($_POST['GridColumns']['check'] as $key => $post) {
                     $model = new GridColumns;
                     $model->grid_id = $grid_id;
-                   // $model->name = $post;
+                    // $model->name = $post;
                     $model->ordern = $_POST['GridColumns']['ordern'][$key];
                     $model->key = $key;
                     try {
-                        $model->save(false, false);
+                        $model->save(false, false,false);
                     } catch (CDbException $e) {
                         //error
                     }
@@ -51,7 +51,9 @@ class EditGridColumsAction extends CAction {
                 $m[$r->key]['ordern'] = $r->ordern;
                 $m[$r->key]['key'] = $r->key;
             }
-            $columsArray = $modelClass::model()->gridColumns;
+
+            $columsArray = $modelClass::model()->getGridColumns();
+
             unset($columsArray['DEFAULT_COLUMNS'], $columsArray['DEFAULT_CONTROL']);
             foreach ($columsArray as $key => $column) {
                 if (isset($column['header'])) {
@@ -59,16 +61,16 @@ class EditGridColumsAction extends CAction {
                 } else {
                     $name = $modelClass::model()->getAttributeLabel($column['name']);
                 }
-                if(isset($m[$key])){
+                if (isset($m[$key])) {
                     $isChecked = ($m[$key]['key'] == $key) ? true : false;
-                }else{
+                } else {
                     $isChecked = false;
                 }
-                
+
                 $data[] = array(
                     'checkbox' => Html::checkbox('GridColumns[check][' . $key . ']', $isChecked, array('value' => $name)),
                     'name' => $name,
-                    'sort' => Html::textField('GridColumns[ordern][' . $key . ']', $m[$key]['ordern'])
+                    'sort' => Html::textField('GridColumns[ordern][' . $key . ']', $m[$key]['ordern'], array('class' => 'form-control text-center'))
                 );
             }
             $provider = new CArrayDataProvider($data, array('pagination' => false));

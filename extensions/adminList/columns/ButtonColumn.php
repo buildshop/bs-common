@@ -163,6 +163,7 @@ class ButtonColumn extends CButtonColumn {
                 },
                 buttons:[{
                         text:'OK',
+                        'class':'btn btn-success btn-sm',
                         click:function(){
                             $(this).dialog('close');
                             var afterDelete = $this->afterDelete;
@@ -182,6 +183,7 @@ class ButtonColumn extends CButtonColumn {
                         }
                     },{
                         text:'Cancel',
+                        'class':'btn btn-default btn-sm',
                         click:function(){
                             $(this).dialog('close');
                             

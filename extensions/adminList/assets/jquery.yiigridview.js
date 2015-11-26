@@ -161,13 +161,16 @@
                         if (State.data.url === undefined) {
                             State.data.url = State.url;
                         }
+
                         $('#' + id).yiiGridView('update', State.data);
                     });
                 }
 
                 if (settings.selectableRows > 0) {
+
                     selectCheckedRows(this.id);
-                    $(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+
+                   /* $(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
                         var $currentGrid, $row, isRowSelected, $checks,
                         $target = $(e.target);
 
@@ -189,11 +192,13 @@
 
 
                         $.fn.yiiGridView.showActions(id);
+                        console.log('22');
                         if (settings.selectionChanged !== undefined) {
                             settings.selectionChanged(id);
                         }
-                    });
+                    });*/
                     if (settings.selectableRows > 1) {
+       
                         $(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function () {
                             var $currentGrid = $('#' + id),
                             $checks = $('input.select-on-check', $currentGrid),
@@ -212,6 +217,7 @@
                                 settings.selectionChanged(id);
                             }
                              $.fn.yiiGridView.showActions(id);
+
                         });
                     }
                 } else {

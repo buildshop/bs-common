@@ -8,6 +8,7 @@
  * 
  * @property integer $_REQUEST['id'] Массив записей
  * @property string $_REQUEST['model'] Модель 
+ * @property integer $_REQUEST['switch'] ON/OFF 
  */
 class SwitchAction extends CAction {
 
@@ -20,8 +21,15 @@ class SwitchAction extends CAction {
                 $model = call_user_func(array($_REQUEST['model'], 'model'));
                 $entry = $model->findAllByPk($_REQUEST['id']);
                 if (!empty($entry)) {
-                    foreach ($entry as $page)
+                    foreach ($entry as $page) {
                         $page->updateByPk($_REQUEST['id'], array('switch' => $_REQUEST['switch']));
+                    }
+                    Yii::app()->timeline->set('SWITCH_RECORD', array(
+                        '{model}' => $_REQUEST['model'],
+                        '{pk}' => $_REQUEST['id'],
+                        '{switch}' => ($_REQUEST['switch']) ? Yii::t('app', 'ON',0) : Yii::t('app', 'OFF',0),
+                        '{htmlClass}'=>($_REQUEST['switch']) ? 'success' : 'danger',
+                    ));
                 }
                 if ($model instanceof ShopProduct) {
                     ShopProductCategoryRef::model()->updateAll(array(

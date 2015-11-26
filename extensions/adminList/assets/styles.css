@@ -1,9 +1,11 @@
-.grid-view
+.grid-view,
+.list-view
 {
     position: relative;
     margin-left: 0;
 }
-.grid-view .grid-view-loading{
+.grid-view .grid-view-loading,
+.list-view .list-view-loading{
 
     background-image: url(ajax-loader.gif);
     width: 100%;

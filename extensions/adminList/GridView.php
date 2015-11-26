@@ -1,16 +1,16 @@
 <?php
 
 Yii::import('zii.widgets.grid.CGridView');
-Yii::import('ext.adminList.columns.ButtonColumn');
-Yii::import('ext.adminList.columns.CEditableColumn');
-Yii::import('ext.adminList.columns.HandleColumn');
+//Yii::import('ext.adminList.columns.ButtonColumn');
+//Yii::import('ext.adminList.columns.CEditableColumn');
+//Yii::import('ext.adminList.columns.HandleColumn');
 //Yii::import('ext.adminList.columns.CheckBoxColumn');
-Yii::import('ext.adminList.columns.EmailColumn');
-Yii::import('ext.adminList.columns.DataColumn');
+//Yii::import('ext.adminList.columns.EmailColumn');
+Yii::import('ext.adminList.columns.*');
 
 
-Yii::import('app.forms.FormButtonElement');
-Yii::import('app.forms.FormInputElement');
+//Yii::import('app.forms.FormButtonElement');
+//Yii::import('app.forms.FormInputElement');
 
 /**
  * 
@@ -25,7 +25,7 @@ Yii::import('app.forms.FormInputElement');
  */
 class GridView extends CGridView {
 
-    public $itemsCssClass = 'table table-striped';
+    public $itemsCssClass = 'table table-striped table-bordered';
     public $headerOptions = true;
     public $autoColumns = true;
     public $enableHeader = true;
@@ -50,7 +50,12 @@ class GridView extends CGridView {
      * @var string the action name that will be used to trigger drag and drop sorting (through the AjaxSortingAction located in the "actions" directory in this extension). Defaults to 'order'. This must be defined in the "actions" method of the controller in which this widget is called. For example: "public function actions() {return array('order' => array('class' => 'ext.yiisortablemodel.actions.AjaxSortingAction'))}. If needed, its acces rules have to be defined, too"
      */
     public $orderUrl = 'order';
-    public $jqueryUiSortableOptions = array("handle" => '.handle', "axis" => "y", "placeholder" => 'ui-state-highlight', "forcePlaceholderSize" => true);
+    public $jqueryUiSortableOptions = array(
+        "handle" => '.handle',
+        "axis" => "y",
+        "placeholder" => 'ui-state-highlight',
+        "forcePlaceholderSize" => true
+    );
     public $descSort = false;
     public $updateAfterSorting = true;
     public $allItemsInOnePage = false;
@@ -74,6 +79,7 @@ class GridView extends CGridView {
     public $enableCustomActions = true;
     public $enableHistory = true;
     public $genId = true;
+    public $pagerCssClass = 'text-center page-container';
 
     public function run() {
         $this->registerClientScript();
@@ -143,7 +149,9 @@ class GridView extends CGridView {
 
 
         $this->pager = array(
-            'cssFile' => $this->baseScriptUrl . '/pager.css',
+            //'cssFile' => $this->baseScriptUrl . '/pager.css',
+            'class' => 'LinkPager',
+            'cssFile' => false,
             'htmlOptions' => array('class' => 'pagination'),
             'header' => (Yii::app()->controller instanceof AdminController) ? '' : null
                 // 'pageSize'=>Yii::app()->settings->get('core', 'pagenum')
@@ -172,48 +180,51 @@ class GridView extends CGridView {
         $this->initColumns();
     }
 
-    
-    
-    	protected function initColumns()
-	{
-		if($this->columns===array())
-		{
-			if($this->dataProvider instanceof CActiveDataProvider)
-				$this->columns=$this->dataProvider->model->attributeNames();
-			elseif($this->dataProvider instanceof IDataProvider)
-			{
-				// use the keys of the first row of data as the default columns
-				$data=$this->dataProvider->getData();
-				if(isset($data[0]) && is_array($data[0]))
-					$this->columns=array_keys($data[0]);
-			}
-		}
-		$id=$this->getId();
-		foreach($this->columns as $i=>$column)
-		{
-			if(is_string($column))
-				$column=$this->createDataColumn($column);
-			else
-			{
-				if(!isset($column['class']))
-					$column['class']='DataColumn';
-				$column=Yii::createComponent($column, $this);
-			}
-			if(!$column->visible)
-			{
-				unset($this->columns[$i]);
-				continue;
-			}
-			if($column->id===null)
-				$column->id=$id.'_c'.$i;
-			$this->columns[$i]=$column;
-		}
+    protected function createDataColumn($text) {
+        if (!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/', $text, $matches))
+            throw new CException(Yii::t('zii', 'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
+        $column = new DataColumn($this);
+        $column->name = $matches[1];
+        if (isset($matches[3]) && $matches[3] !== '')
+            $column->type = $matches[3];
+        if (isset($matches[5]))
+            $column->header = $matches[5];
+        return $column;
+    }
 
-		foreach($this->columns as $column)
-			$column->init();
-	}
-        
-        
+    protected function initColumns() {
+        if ($this->columns === array()) {
+            if ($this->dataProvider instanceof ActiveDataProvider)
+                $this->columns = $this->dataProvider->model->attributeNames();
+            elseif ($this->dataProvider instanceof IDataProvider) {
+                // use the keys of the first row of data as the default columns
+                $data = $this->dataProvider->getData();
+                if (isset($data[0]) && is_array($data[0]))
+                    $this->columns = array_keys($data[0]);
+            }
+        }
+        $id = $this->getId();
+        foreach ($this->columns as $i => $column) {
+            if (is_string($column))
+                $column = $this->createDataColumn($column);
+            else {
+                if (!isset($column['class']))
+                    $column['class'] = 'DataColumn';
+                $column = Yii::createComponent($column, $this);
+            }
+            if (!$column->visible) {
+                unset($this->columns[$i]);
+                continue;
+            }
+            if ($column->id === null)
+                $column->id = $id . '_c' . $i;
+            $this->columns[$i] = $column;
+        }
+
+        foreach ($this->columns as $column)
+            $column->init();
+    }
+
     /**
      * Renders a table body row.
      * @param integer $row the row number (zero-based).
@@ -246,6 +257,7 @@ class GridView extends CGridView {
 
     protected function getSortScript() {
         return '
+
          var grid_id = ' . CJavaScript::encode($this->getId()) . ';
          var grid_selector = ' . CJavaScript::encode('#' . $this->getId()) . ';
          var tbody_selector = ' . CJavaScript::encode('#' . $this->getId() . ' tbody') . ';
@@ -253,7 +265,7 @@ class GridView extends CGridView {
          $(tbody_selector).sortable(' . CJavaScript::encode($this->jqueryUiSortableOptions) . ');
          /*helper to keep each table cell width while dragging*/
          $(tbody_selector).sortable("option", "helper", function(e, ui) {
-         console.log("helper");
+
             ui.children().each(function() {
                $(this).width($(this).width());
               // console.log($(this).width($(this).width()));
@@ -263,16 +275,19 @@ class GridView extends CGridView {
          });
          /*add dragged row index before moving as an attribute. Used to know if item is moved forward or backward*/
          $(tbody_selector).bind("sortstart", function(event, ui) {
+
             ui.item.attr("data-prev-index", ui.item.index());
    
          });
          /*trigger ajax sorting when grid is updated*/
          $(tbody_selector).bind("sortupdate", function(event, ui) {
+
             $(grid_selector).find("#grid-loading").addClass(' . CJavaScript::encode($this->loadingCssClass) . ');
             var data = {};
             data["dragged_item_id"] = parseInt(ui.item.attr("data-id"));
             var prev_index = parseInt(ui.item.attr("data-prev-index"));
             var new_index = parseInt(ui.item.index());
+
             /*which item place take dragged item*/
             if (prev_index < new_index) {
                data["replacement_item_id"] = ui.item.prev().attr("data-id");
@@ -363,13 +378,12 @@ class GridView extends CGridView {
         if (isset($this->dataProvider->model) && isset($this->autoColumns))
             $cs->registerScriptFile($this->baseScriptUrl . '/editgridcolums.js', CClientScript::POS_END);
 
-
         if (isset($this->dataProvider->model)) {
             if ((count($this->dataProvider->getData()) > 0) && $this->enableDragDropSorting === true && array_key_exists('ordern', $this->dataProvider->model->attributes)) {
 
                 // $cs = Yii::app()->getClientScript();
                 $cs->registerScript(__CLASS__ . '-' . $this->id,
-                        /* Call sort script when document is ready and each time grid is updated */ $this->getSortScript() . '
+                        $this->getSortScript() . '
             $(document).ajaxSuccess(function(e, xhr, settings) {
                if (settings.url === $.fn.yiiGridView.getUrl(' . CJavaScript::encode($this->getId()) . ')) {
                   ' . $this->getSortScript() . '
@@ -420,31 +434,31 @@ class GridView extends CGridView {
             Yii::app()->tpl->openWidget($params);
         }
 
-        parent::renderItems();
 
+        echo Html::openTag('div', array('class' => 'table-responsive'));
+        parent::renderItems();
+        echo Html::closeTag('div');
         if ($this->selectableRows > 0 && $this->enableCustomActions === true && (count($this->dataProvider->getData()) > 0)) {
             //echo '<select class="CA" name="test" onChange="customActions(this);">';
             if ($this->enableCustomActions === true) {
-                
-
 
                 $this->widget('zii.widgets.CMenu', array(
                     'id' => $this->getId() . 'Actions',
-                    'encodeLabel'=>false,
-                    'submenuHtmlOptions' => array('class' => 'dropdown-menu '),
+                    'encodeLabel' => false,
+                    'submenuHtmlOptions' => array('class' => 'dropdown-menu'),
                     'htmlOptions' => array(
-                        'class' => ' btn-group dropup gridActions',
+                        'class' => 'btn-group dropup gridActions',
                     ),
                     'items' => array(
                         array(
                             'label' => 'Выбрать действие <span class="caret"></span>',
                             'url' => '#',
                             'linkOptions' => array(
-                                'class' => 'btn btn-default',
+                                'class' => 'btn btn-sm btn-default',
                                 'data-toggle' => 'dropdown',
-                                'aria-haspopup'=>"true",
-                                'aria-expanded'=>"false"
-                                ),
+                                'aria-haspopup' => "true",
+                                'aria-expanded' => "false"
+                            ),
                             'items' => $this->getCustomActions()
                         ),
                     )//this->getCustomActions()
@@ -471,12 +485,12 @@ class GridView extends CGridView {
             $this->customActions = array(array(
                     'label' => Yii::t('app', 'DELETE'),
                     'url' => $this->owner->createUrl('delete'),
-                    'icon' => 'icon-trashcan',
+                    'icon' => 'flaticon-delete',
                     'linkOptions' => array(
                         'class' => 'actionDelete',
                         'data-question' => Yii::t('app', 'PERFORM_ACTION'),
                     )
-                    ));
+            ));
         }
         return $this->_customActions;
     }
@@ -514,7 +528,7 @@ class GridView extends CGridView {
 /**
  * Column class to render ID column
  */
-class SGridIdColumn extends DataColumn {
+class IdColumn extends DataColumn {
 
     public function renderHeaderCell() {
         $this->headerHtmlOptions['width'] = '20px';

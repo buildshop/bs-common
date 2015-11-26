@@ -95,6 +95,21 @@ class Controller extends CController {
         $cs->registerMetaTag('CORNER CMS ' . Yii::app()->version, 'author');
         $cs->registerMetaTag(($this->pageDescription !== null) ? $this->pageDescription : '', 'description');
         $cs->registerMetaTag(($this->pageKeywords !== null) ? $this->pageKeywords : '', 'keywords');
+        
+
+
+        $cs->registerScript('app', "
+        app.token = '" . Yii::app()->request->csrfToken . "';
+        app.language = '" . Yii::app()->language . "';
+        app.message = {
+            save:'" . Yii::t('app', 'SAVE') . "',
+            cancel:'" . Yii::t('app', 'CANCEL') . "',
+            error:{
+                404:'" . Yii::t('error', '404') . "'
+            },
+        }
+        ", CClientScript::POS_HEAD);
+        
         return parent::beforeRender($view);
     }
 

@@ -32,17 +32,10 @@ $cs->registerScriptFile($adminAssetsUrl . '/js/counters.js');
 Yii::import('ext.jgrowl.Jgrowl');
 Jgrowl::register();
 
-$cs->registerScript('app', "
+$cs->registerScript('app2', "
 var translate_object_url = " . Yii::app()->settings->get('core', 'translate_object_url') . ";
 var yandex_translate_apikey = '" . yandexTranslate::API_KEY . "';
 
-app.token = '" . Yii::app()->request->csrfToken . "';
-app.language = '" . Yii::app()->language . "';
-app.message = {
-    error:{
-        404:'" . Yii::t('error', '404') . "'
-    },
-}
 ", CClientScript::POS_HEAD);
 ?>
 <!DOCTYPE html>

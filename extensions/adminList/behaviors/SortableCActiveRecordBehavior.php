@@ -1,4 +1,5 @@
 <?php
+
 //Copyright 2011, Marc Busqué Pérez
 //
 //This file is a part of Yii Sortable Model
@@ -24,55 +25,53 @@
  * @license LGPL
  * @since 1.1
  */
-class SortableCActiveRecordBehavior extends CActiveRecordBehavior
-{
-   /**
-    * @var string the field name in the database table which stores the order for the record. This should be a positive integer field. Defaults to 'order'
-    */
-   public $orderField = 'order';
+class SortableCActiveRecordBehavior extends CActiveRecordBehavior {
 
+    /**
+     * @var string the field name in the database table which stores the order for the record. This should be a positive integer field. Defaults to 'order'
+     */
+    public $orderField = 'order';
 
-   /**
-    * Responds to {@link CActiveRecord::onBeforeSave} event.
-    * @param CModelEvent $event event parameter
-    */
-   public function beforeSave($event)
-   {
-      $sender = $event->sender;
-      if ($sender->isNewRecord) {
-         $model = call_user_func(array(get_class($sender), 'model'));
-         $last_record = $model->find(array(
-            'order' => '`'.$this->orderField.'` DESC',
-            'limit' => 1
-         ));
-         if ($last_record) {
-            $sender->{$this->orderField} = $last_record->{$this->orderField} + 1;
-         } else {
-            $sender->{$this->orderField} = 1;
-         }
-      }
+    /**
+     * Responds to {@link CActiveRecord::onBeforeSave} event.
+     * @param CModelEvent $event event parameter
+     */
+    public function beforeSave($event) {
+        $sender = $event->sender;
+        if ($sender->isNewRecord) {
+            $model = call_user_func(array(get_class($sender), 'model'));
+            $last_record = $model->find(array(
+                'order' => '`' . $this->orderField . '` DESC',
+                'limit' => 1
+                    ));
+            if ($last_record) {
+                $sender->{$this->orderField} = $last_record->{$this->orderField} + 1;
+            } else {
+                $sender->{$this->orderField} = 1;
+            }
+        }
 
-      return parent::beforeSave($event);
-   } 
+        return parent::beforeSave($event);
+    }
 
-   /**
-    * Responds to {@link CActiveRecord::onBeforeDelete} event.
-    * Update records order field in a manner that their values are still successively increased by one (so, there is no gap caused by the deleted record)
-    * @param CEvent $event event parameter
-    */
-   public function afterDelete($event)
-   {
-      $sender = $event->sender;
-      $model = call_user_func(array(get_class($sender), 'model'));
-      $following_records = $model->findAll(array(
-         'order' => '`'.$this->orderField.'` ASC',
-         'condition' => '`'.$this->orderField.'` > '.$sender->{$this->orderField},
-      ));
-      foreach ($following_records as $record) {
-         $record->{$this->orderField}--;
-         $record->update();
-      }
+    /**
+     * Responds to {@link CActiveRecord::onBeforeDelete} event.
+     * Update records order field in a manner that their values are still successively increased by one (so, there is no gap caused by the deleted record)
+     * @param CEvent $event event parameter
+     */
+    public function afterDelete($event) {
+        $sender = $event->sender;
+        $model = call_user_func(array(get_class($sender), 'model'));
+        $following_records = $model->findAll(array(
+            'order' => '`' . $this->orderField . '` ASC',
+            'condition' => '`' . $this->orderField . '` > ' . $sender->{$this->orderField},
+                ));
+        foreach ($following_records as $record) {
+            $record->{$this->orderField}--;
+            $record->update();
+        }
 
-      return parent::afterDelete($event);
-   }
+        return parent::afterDelete($event);
+    }
+
 }

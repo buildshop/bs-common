@@ -9,6 +9,9 @@ return array(
         '/' => 'main/index/index',
         'ajax/<action:[.\w]+>' => 'main/ajax/<action>', // dotted for actions widget.<name>
         'ajax/<action:[.\w]>/*' => 'main/ajax/<action>',
+        'admin/core/ajax/<action:[.\w]+>' => 'core/admin/ajax/<action>', // dotted for actions widget.<name>
+        'admin/core/ajax/<action:[.\w]>/*' => 'core/admin/ajax/<action>',
+        
         'admin/auth' => 'admin/auth',
         'admin/auth/logout' => 'admin/auth/logout',
         'admin/dekstop/<action:\w+>' => 'admin/dekstop/<action>',
