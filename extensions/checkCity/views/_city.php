@@ -35,7 +35,7 @@ $countries = ContactsCountries::model()->findAll();
                     $name = ($city->capital) ? '<b>' . $city->name . '</b>' : $city->name;
                     $class = ($city->name == CMS::getCookieCity()) ? 'btn-default' : 'link';
                     ?>
-                    <div class="col-md-4 city-list">
+                    <div class="col-md-4 col-sm-4 col-xs-12 city-list">
                         <?php
                         echo Html::link($name, 'javascript:void(0)', array(
                             'data-name' => $city->name,
