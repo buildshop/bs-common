@@ -18,7 +18,7 @@ return array(
     'HELLO'=>'Добро пожаловать, <b>{username}</b>',
     'OFFLINE' => 'Нет в сети',
     'ONLINE' => 'В сети',
-    'ADD_TAG' => 'Добавить тег',
+
     'GUEST' => 'Гость',
     'ADMIN_PANEL' => 'Админ-панель',
     'LOGOUT' => 'Выход',

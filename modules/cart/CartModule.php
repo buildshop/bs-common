@@ -25,17 +25,17 @@ class CartModule extends WebModule {
             $this->id . '.components.*',
             $this->id . '.components.payment.*'
         ));
-        if(!Yii::app()->settings->get('cart')){
-             Yii::app()->settings->set('cart', SettingsCartForm::defaultSettings());
+        if (!Yii::app()->settings->get('cart')) {
+            Yii::app()->settings->set('cart', SettingsCartForm::defaultSettings());
         }
-       // self::registerAssets();
+        // self::registerAssets();
     }
 
     public function afterInstall() {
         if (Yii::app()->hasModule('shop')) {
             Yii::app()->settings->set($this->id, SettingsCartForm::defaultSettings());
             Yii::app()->database->import($this->id);
-           // Yii::app()->intallComponent('cart', 'mod.cart.components.Cart');
+            // Yii::app()->intallComponent('cart', 'mod.cart.components.Cart');
             return parent::afterInstall();
         } else {
             Yii::app()->controller->addFlashMessage('Ошибка, Модуль интернет-магазин не устрановлен.');
@@ -98,10 +98,10 @@ class CartModule extends WebModule {
         $c = Yii::app()->controller->id;
         $m = Yii::app()->controller->module->id;
         return array(
-            'orders' => array(
+            'cart' => array(
                 'label' => Yii::t('CartModule.admin', 'ORDER', 0),
-                'url' => array('/admin/cart'),
-                   'active' => ($m == 'cart') ? true : false,
+               // 'url' => '#', //array('/admin/cart')
+                'active' => ($m == 'cart') ? true : false,
                 'icon' => 'flaticon-cart',
                 'itemOptions' => array('class' => 'circle-orders'),
                 'visible' => Yii::app()->user->isSuperuser,
@@ -118,12 +118,12 @@ class CartModule extends WebModule {
                         'icon' => 'icon-stats',
                         'visible' => Yii::app()->user->isSuperuser
                     ),
-                  /*  array(
-                        'label' => Yii::t('CartModule.admin', 'HISTORY'),
-                        'url' => Yii::app()->createUrl('/admin/cart/history'),
-                        'icon' => 'flaticon-history',
-                        'visible' => Yii::app()->user->isSuperuser
-                    ),*/
+                    /*  array(
+                      'label' => Yii::t('CartModule.admin', 'HISTORY'),
+                      'url' => Yii::app()->createUrl('/admin/cart/history'),
+                      'icon' => 'flaticon-history',
+                      'visible' => Yii::app()->user->isSuperuser
+                      ), */
                     array(
                         'label' => Yii::t('CartModule.admin', 'DELIVERY'),
                         'url' => Yii::app()->createUrl('cart/admin/delivery'),

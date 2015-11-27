@@ -33,7 +33,7 @@ class ManufacturerController extends AdminController {
         );
 
         $this->topButtons = array(
-            array('label' => Yii::t('ShopModule.admin', 'Создать производителя'),
+            array('label' => Yii::t('ShopModule.admin', 'Добавить производителя'),
                 'url' => $this->createUrl('create'),
                 'htmlOptions' => array('class' => 'btn btn-success')
                 )

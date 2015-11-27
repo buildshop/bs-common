@@ -2,7 +2,7 @@
 
 class SettingsUsersForm extends FormModel {
 
-    protected $_mid = 'users';
+    const MODULE_ID = 'users';
     public $upload_avatar;
     public $upload_types;
     public $upload_size;
@@ -64,10 +64,11 @@ class SettingsUsersForm extends FormModel {
     }
 
     public function getForm() {
-        Yii::import('ext.BootstrapTagInput');
-        $tab = new TabForm(array('id' => __CLASS__,
+        Yii::import('ext.TagInput');
+        $tab = new TabForm(array(
                     'showErrorSummary' => false,
                     'attributes' => array(
+                        'id' => __CLASS__,
                         'class' => 'form-horizontal',
                     ),
                     'elements' => array(
@@ -78,7 +79,7 @@ class SettingsUsersForm extends FormModel {
 
                                 'upload_avatar' => array('type' => 'checkbox'),
                                 'upload_types' => array(
-                                    'type' => 'BootstrapTagInput',
+                                    'type' => 'TagInput',
                                     'htmlOptions' => array(
                                         'placeholder' => 'Добавить формат'
                                     )
@@ -91,12 +92,12 @@ class SettingsUsersForm extends FormModel {
                                 'register_nomail' => array('type' => 'checkbox'),
                                 'min_password' => array('type' => 'text'),
                                 'bad_name' => array(
-                                    'type' => 'BootstrapTagInput',
+                                    'type' => 'TagInput',
                                     'htmlOptions' => array(
                                         'placeholder' => 'Добавить Имя'
                                     )
                                 ),
-                                'bad_email' => array('type' => 'BootstrapTagInput',
+                                'bad_email' => array('type' => 'TagInput',
                                     'htmlOptions' => array(
                                         'placeholder' => 'Добавить сервис'
                                     )

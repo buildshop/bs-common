@@ -62,8 +62,10 @@ class ShopManufacturer extends ActiveRecord {
     }
 
     public function getForm() {
-        $tab = new TabForm(array('id' => __CLASS__,
+                Yii::app()->controller->widget('ext.tinymce.TinymceWidget');
+        $tab = new TabForm(array(
                     'attributes' => array(
+                        'id' => __CLASS__,
                         'enctype' => 'multipart/form-data',
                         'class' => 'form-horizontal'
                     ),
@@ -91,6 +93,7 @@ class ShopManufacturer extends ActiveRecord {
                                 ),
                                 'description' => array(
                                     'type' => 'textarea',
+                                    'class' => 'editor'
                                 ),
                             ),
                         ),

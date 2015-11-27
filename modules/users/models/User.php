@@ -119,8 +119,9 @@ class User extends ActiveRecord {
 
     public function getForm() {
         Yii::import('zii.widgets.jui.CJuiDatePicker');
-        return new CMSForm(array('id' => __CLASS__,
+        return new CMSForm(array(
                     'attributes' => array(
+                        'id' => __CLASS__,
                         'class' => 'form-horizontal',
                     ),
                     'enctype' => 'multipart/form-data',
