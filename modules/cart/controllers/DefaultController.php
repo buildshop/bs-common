@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('mod.shop.ShopModule');
-
 class DefaultController extends Controller {
 
     /**
@@ -32,11 +30,11 @@ class DefaultController extends Controller {
     public function actionIndex() {
         // Recount
         // ShopModule::registerAssets();
-        $this->pageName = Yii::t('CartModule.default', 'MODULE_NAME');
+        $this->pageName = Yii::t('app', 'CART');
         $this->pageTitle = $this->pageName;
 
         $this->breadcrumbs = array(
-            Yii::t('ShopModule.default', 'BC_SHOP') => array('/shop'),
+            Yii::t('app', 'PRODUCTION') => array('/shop'),
             $this->pageName);
         if (Yii::app()->request->isPostRequest && Yii::app()->request->getPost('recount') && !empty($_POST['quantities'])) {
 
@@ -64,8 +62,12 @@ class DefaultController extends Controller {
                 ->active()
                 ->orderByName()
                 ->findAll();
-
+        if(count($deliveryMethods) < 1)
+            throw new CHttpException(404, Yii::t('CartModule.default', 'ERROR_DELIVERY'));
+        
         $paymenyMethods = ShopPaymentMethod::model()->findAll();
+        if(count($paymenyMethods) < 1)
+            throw new CHttpException(404, Yii::t('CartModule.default', 'ERROR_PAYMENTS'));
 
         $this->render('index', array(
             'items' => Yii::app()->cart->getDataWithModels(),
@@ -93,8 +95,8 @@ class DefaultController extends Controller {
         $this->pageName = Yii::t('CartModule.default', 'VIEW_ORDER', array('{id}' => $model->id));
         $this->pageTitle = $this->pageName;
         $this->breadcrumbs = array(
-            Yii::t('ShopModule.default', 'BC_SHOP') => array('/shop'),
-            Yii::t('CartModule.default', 'MODULE_NAME') => array('/cart'),
+            Yii::t('app', 'PRODUCTION') => array('/shop'),
+            Yii::t('app', 'CART') => array('/cart'),
             $this->pageName);
         if (!$model)
             throw new CHttpException(404, Yii::t('CartModule.default', 'ERROR_ORDER_NO_FIND'));

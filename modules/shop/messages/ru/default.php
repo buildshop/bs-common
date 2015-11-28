@@ -12,7 +12,7 @@
  * @package modules.messages.ru
  */
 return array(
-    'BC_SHOP' => 'Продукция',
+
     'FILTER_PRICE_HEADER' => 'Цена',
     'MODULE_NAME' => 'Магазин',
     'MODULE_DESC' => 'Управление витриной магазина',

@@ -13,6 +13,8 @@
  * @return array
  */
 return array(
+    'ERROR_DELIVERY' => 'Нет не одного способа доставки.<br/>Обратитесь к администратору сайта <a href="/contacts">контакты</a>.',
+    'ERROR_PAYMENTS' => 'Нет не одного способа оплаты.<br/>Обратитесь к администратору сайта <a href="/contacts">контакты</a>.',
     'MODULE_NAME' => 'Корзина',
     'MODULE_DESC' => 'Управление заказами',
     'COST_DELIVERY' => 'Стоимость доставки',

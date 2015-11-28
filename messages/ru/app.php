@@ -15,6 +15,8 @@ return array(
     'SYSTEM' => 'Система',
     'BLOCKS' => 'Блоки',
         'ADD_TAG' => 'Добавить тег',
+    'CART' => 'Корзина',
+        'PRODUCTION' => 'Продукция',
     'CART_EMPTY' => 'Корзина пуста',
     'BUTTON_CHECKOUT' => 'Оформить заказ',
     'TOTAL_PAY' => 'Всего к оплате',
