@@ -21,6 +21,7 @@ class ShopManufacturer extends ActiveRecord {
 
     use ImageUrl;
 
+    const route = '/shop/admin/manufacturer';
     const MODULE_ID = 'shop';
 
     public $translateModelName = 'ShopManufacturerTranslate';
@@ -62,65 +63,65 @@ class ShopManufacturer extends ActiveRecord {
     }
 
     public function getForm() {
-                Yii::app()->controller->widget('ext.tinymce.TinymceWidget');
+        Yii::app()->controller->widget('ext.tinymce.TinymceWidget');
         $tab = new TabForm(array(
-                    'attributes' => array(
-                        'id' => __CLASS__,
-                        'enctype' => 'multipart/form-data',
-                        'class' => 'form-horizontal'
-                    ),
-                    'showErrorSummary' => true,
+            'attributes' => array(
+                'id' => __CLASS__,
+                'enctype' => 'multipart/form-data',
+                'class' => 'form-horizontal'
+            ),
+            'showErrorSummary' => true,
+            'elements' => array(
+                'content' => array(
+                    'type' => 'form',
+                    'title' => $this->t('TAB_GENERAL_INFO'),
                     'elements' => array(
-                        'content' => array(
-                            'type' => 'form',
-                            'title' => $this->t('TAB_GENERAL_INFO'),
-                            'elements' => array(
-                                'name' => array(
-                                    'type' => 'text', 'id' => 'title',
-                                ),
-                                'seo_alias' => array(
-                                    'type' => 'text', 'id' => 'alias',
-                                    'visible' => (Yii::app()->settings->get('core', 'translate_object_url')) ? false : true
-                                ),
-                                'image' => array(
-                                    'type' => 'file',
-                                    'hint' => $this->getImageView()
-                                ),
-                                'cat_id' => array(
-                                    'type' => 'dropdownlist',
-                                    'items' => ShopCategory::flatTree(),
-                                    'empty' => '---',
-                                ),
-                                'description' => array(
-                                    'type' => 'textarea',
-                                    'class' => 'editor'
-                                ),
-                            ),
+                        'name' => array(
+                            'type' => 'text', 'id' => 'title',
                         ),
-                        'seo' => array(
-                            'type' => 'form',
-                            'title' => $this->t('TAB_META'),
-                            'elements' => array(
-                                'seo_title' => array(
-                                    'type' => 'text',
-                                ),
-                                'seo_keywords' => array(
-                                    'type' => 'textarea',
-                                ),
-                                'seo_description' => array(
-                                    'type' => 'textarea',
-                                ),
-                            ),
+                        'seo_alias' => array(
+                            'type' => 'text', 'id' => 'alias',
+                            'visible' => (Yii::app()->settings->get('core', 'translate_object_url')) ? false : true
+                        ),
+                        'image' => array(
+                            'type' => 'file',
+                            'hint' => $this->getImageView()
+                        ),
+                        'cat_id' => array(
+                            'type' => 'dropdownlist',
+                            'items' => ShopCategory::flatTree(),
+                            'empty' => '---',
+                        ),
+                        'description' => array(
+                            'type' => 'textarea',
+                            'class' => 'editor'
                         ),
                     ),
-                    'buttons' => array(
-                        'submit' => array(
-                            'type' => 'submit',
-                            'class' => 'btn btn-success',
-                            'label' => ($this->isNewRecord) ? Yii::t('app', 'CREATE', 0) : Yii::t('app', 'SAVE')
-                        )
-                    )
-                        ), $this);
+                ),
+                'seo' => array(
+                    'type' => 'form',
+                    'title' => $this->t('TAB_META'),
+                    'elements' => array(
+                        'seo_title' => array(
+                            'type' => 'text',
+                        ),
+                        'seo_keywords' => array(
+                            'type' => 'textarea',
+                        ),
+                        'seo_description' => array(
+                            'type' => 'textarea',
+                        ),
+                    ),
+                ),
+            ),
+            'buttons' => array(
+                'submit' => array(
+                    'type' => 'submit',
+                    'class' => 'btn btn-success',
+                    'label' => ($this->isNewRecord) ? Yii::t('app', 'CREATE', 0) : Yii::t('app', 'SAVE')
+                )
+            )
+                ), $this);
         return $tab;
     }
 
@@ -287,9 +288,9 @@ class ShopManufacturer extends ActiveRecord {
         );
 
         return new ActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                    'sort' => $sort
-                ));
+            'criteria' => $criteria,
+            'sort' => $sort
+        ));
     }
 
 }

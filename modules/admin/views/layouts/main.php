@@ -52,6 +52,8 @@ var yandex_translate_apikey = '" . yandexTranslate::API_KEY . "';
         </script>
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
+
+                    <div class="col-sm-12">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
@@ -67,7 +69,7 @@ var yandex_translate_apikey = '" . yandexTranslate::API_KEY . "';
                         <li><a href="/">Витрина</a></li>
                         <li><?= Html::link('Выход ' . Yii::app()->user->login, array('/users/logout'), ['data-method' => "post"]) ?></li>
                     </ul>
-                </div>
+                </div></div>
             </div>
         </nav>
 

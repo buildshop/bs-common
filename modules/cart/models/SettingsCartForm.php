@@ -42,7 +42,7 @@ class SettingsCartForm extends FormModel {
     }
 
     public function getForm() {
-        Yii::import('ext.BootstrapTagInput');
+        Yii::import('ext.TagInput');
         Yii::app()->controller->widget('ext.tinymce.TinymceWidget');
         return new TabForm(array('id' => __CLASS__,
                     'showErrorSummary' => false,
@@ -56,7 +56,7 @@ class SettingsCartForm extends FormModel {
                             'title' => Yii::t('core', 'Общие'),
                             'elements' => array(
                                 'order_emails' => array(
-                                    'type' => 'BootstrapTagInput',
+                                    'type' => 'TagInput',
                                 ),
                             )
                         ),

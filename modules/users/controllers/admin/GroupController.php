@@ -22,6 +22,9 @@ class GroupController extends AdminController {
     }
 
     public function actionUpdate($new = false) {
+        
+        if($_GET['id']==1)
+            throw new CHttpException(403);
         $model = ($new === true) ? new UserGroup : UserGroup::model()->findByPk($_GET['id']);
         $this->pageName = Yii::t('app', 'GROUP');
         $this->breadcrumbs = array(

@@ -46,7 +46,9 @@ Yii::import('app.traits.ImageUrl');
  * @method ShopProduct withEavAttributes
  */
 class ShopProduct extends ActiveRecord {
+
     use ImageUrl;
+
     /**
      * @var null Id if product to exclude from search
      */
@@ -102,7 +104,6 @@ class ShopProduct extends ActiveRecord {
     const MODULE_ID = 'shop';
     const route = '/shop/admin/products';
 
-
     /**
      * @return string the associated database table name
      */
@@ -151,14 +152,15 @@ class ShopProduct extends ActiveRecord {
             array(
                 'name' => 'manufacturer_id',
                 'type' => 'raw',
-                'value' => '$data->manufacturer ? Html::encode($data->manufacturer->name) : ""',
-                'filter' => Html::listData(ShopManufacturer::model()->cache(Yii::app()->controller->cacheTime)->orderByName()->findAll(), 'id', 'name')
+                'htmlOptions' => array('class' => 'text-center'),
+                'value' => '$data->manufacturer ? Html::link(Html::encode($data->manufacturer->name), $data->manufacturer->getUpdateUrl()) : ""',
+                'filter' => Html::listData(ShopManufacturer::model()->orderByName()->findAll(), 'id', 'name')
             ),
             array(
                 'name' => 'supplier_id',
                 'type' => 'raw',
                 'value' => '$data->supplier_id ? Html::encode($data->supplier->name) : ""',
-                'filter' => Html::listData(ShopSuppliers::model()->cache(Yii::app()->controller->cacheTime)->findAll(), 'id', 'name')
+                'filter' => Html::listData(ShopSuppliers::model()->findAll(), 'id', 'name')
             ),
             array(
                 'type' => 'raw',
@@ -405,7 +407,7 @@ class ShopProduct extends ActiveRecord {
             'productsCount' => array(self::STAT, 'ShopProduct', 'manufacturer_id', 'select' => 'count(t.id)'),
             'type' => array(self::BELONGS_TO, 'ShopProductType', 'type_id'),
             //   'typeGet' => array(self::BELONGS_TO, 'ShopProductType', 'type_id', 'condition' => 'typeGet.id=:tid', 'params' => array(':tid' => (int) $_GET['ShopProduct']['type_id'])), //Специально для Добавлние товара.
-            'commentsCount' => array(self::STAT, 'Comments', 'object_id', 'condition' => '`t`.`model`="mod.shop.models.ShopProduct"','scopes'=>'active'),
+            'commentsCount' => array(self::STAT, 'Comments', 'object_id', 'condition' => '`t`.`model`="mod.shop.models.ShopProduct"', 'scopes' => 'active'),
             'related' => array(self::HAS_MANY, 'ShopRelatedProduct', 'product_id'),
             'relatedProducts' => array(self::HAS_MANY, 'ShopProduct', array('related_id' => 'id'), 'through' => 'related'),
             'relatedProductCount' => array(self::STAT, 'ShopRelatedProduct', 'product_id'),
@@ -609,9 +611,9 @@ class ShopProduct extends ActiveRecord {
 
 
         return new ActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                    'sort' => self::getCSort()
-                        )
+            'criteria' => $criteria,
+            'sort' => self::getCSort()
+                )
         );
     }
 
@@ -833,7 +835,7 @@ class ShopProduct extends ActiveRecord {
             $count = ShopProductCategoryRef::model()->countByAttributes(array(
                 'category' => $c,
                 'product' => $this->id,
-                    ));
+            ));
             if ($count == 0) {
                 $record = new ShopProductCategoryRef;
                 $record->category = (int) $c;

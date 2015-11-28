@@ -107,6 +107,12 @@ class CartModule extends WebModule {
                 'visible' => Yii::app()->user->isSuperuser,
                 'items' => array(
                     array(
+                        'label' => Yii::t('CartModule.admin', 'ORDER', 0),
+                        'url' => Yii::app()->createUrl('/admin/cart'),
+                        'icon' => 'flaticon-cart',
+                        'visible' => Yii::app()->user->isSuperuser
+                    ),
+                    array(
                         'label' => Yii::t('CartModule.admin', 'STATS'),
                         'url' => Yii::app()->createUrl('/admin/cart/statistics'),
                         'icon' => 'flaticon-stats',
@@ -124,27 +130,7 @@ class CartModule extends WebModule {
                       'icon' => 'flaticon-history',
                       'visible' => Yii::app()->user->isSuperuser
                       ), */
-                    array(
-                        'label' => Yii::t('CartModule.admin', 'DELIVERY'),
-                        'url' => Yii::app()->createUrl('cart/admin/delivery'),
-                        'active' => ($c == 'admin/delivery') ? true : false,
-                        'icon' => 'flaticon-delivery',
-                        'visible' => Yii::app()->user->isSuperuser
-                    ),
-                    array(
-                        'label' => Yii::t('CartModule.admin', 'PAYMENTS'),
-                        'url' => Yii::app()->createUrl('cart/admin/paymentMethod'),
-                        'active' => ($c == 'admin/paymentMethod') ? true : false,
-                        'icon' => 'flaticon-purse',
-                        'visible' => Yii::app()->user->isSuperuser
-                    ),
-                    array(
-                        'label' => Yii::t('CartModule.admin', 'NOTIFIER'),
-                        'url' => Yii::app()->createUrl('cart/admin/notify'),
-                        'active' => ($c == 'admin/notify') ? true : false,
-                        'icon' => 'flaticon-mail',
-                        'visible' => Yii::app()->user->isSuperuser
-                    ),
+
                     array(
                         'label' => Yii::t('app', 'SETTINGS'),
                         'url' => Yii::app()->createUrl('/admin/cart/settings'),
