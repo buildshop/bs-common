@@ -5,11 +5,10 @@ Yii::import('mod.news.models.NewsTranslate');
 class News extends ActiveRecord {
 
     const MODULE_ID = 'news';
+    const route = '/news/admin/default';
+
     public $tags;
     public $_category = null;
-    public $route_update = '/news/admin/default/update';
-    public $route_switch = '/news/admin/default/switch';
-    public $route_delete = '/news/admin/default/delete';
 
     /**
      * Multilingual attrs
@@ -31,88 +30,88 @@ class News extends ActiveRecord {
         Yii::import('ext.BootstrapTagInput');
         Yii::app()->controller->widget('ext.tinymce.TinymceWidget');
         return new TabForm(array(
-                    'showErrorSummary' => true,
-                    'attributes' => array(
-                        'class' => 'form-horizontal',
-                        'id' => __CLASS__,
-                    ),
+            'showErrorSummary' => true,
+            'attributes' => array(
+                'class' => 'form-horizontal',
+                'id' => __CLASS__,
+            ),
+            'elements' => array(
+                'content' => array(
+                    'type' => 'form',
+                    'title' => $this->t('TAB_CONTENT'),
                     'elements' => array(
-                        'content' => array(
-                            'type' => 'form',
-                            'title' => $this->t('TAB_CONTENT'),
-                            'elements' => array(
-                                'title' => array(
-                                    'type' => 'text',
-                                    'id' => 'title'
-                                ),
-                                'seo_alias' => array(
-                                    'type' => 'text',
-                                    'id' => 'alias',
-                                    'visible' => (Yii::app()->settings->get('core', 'translate_object_url')) ? false : true
-                                ),
-                                'category_id' => array(
-                                    'type' => 'dropdownlist',
-                                    'items' => Html::listData(CategoriesModel::model()->findAll(), 'id', 'name'),
-                                ),
-                                'short_text' => array(
-                                    'type' => 'textarea',
-                                    'class' => 'editor'
-                                ),
-                                'full_text' => array(
-                                    'type' => 'textarea',
-                                    'class' => 'editor'
-                                ),
-                                'tags' => array(
-                                    'type' => 'BootstrapTagInput',
-                                    'htmlOptions' => array(
-                                    //'defaultText'=>'lala'
-                                    )
-                                ),
-                            ),
+                        'title' => array(
+                            'type' => 'text',
+                            'id' => 'title'
                         ),
-                        'seo' => array(
-                            'type' => 'form',
-                            'title' => $this->t('TAB_META'),
-                            'elements' => array(
-                                'seo_title' => array(
-                                    'type' => 'text',
-                                ),
-                                'seo_keywords' => array(
-                                    'type' => 'textarea',
-                                ),
-                                'seo_description' => array(
-                                    'type' => 'textarea',
-                                ),
-                            ),
+                        'seo_alias' => array(
+                            'type' => 'text',
+                            'id' => 'alias',
+                            'visible' => (Yii::app()->settings->get('core', 'translate_object_url')) ? false : true
                         ),
-                        'additional' => array(
-                            'type' => 'form',
-                            'title' => $this->t('TAB_ADDITIONALLY'),
-                            'elements' => array(
-                                'switch' => array(
-                                    'type' => 'dropdownlist',
-                                    'items' => array(0 => Yii::t('app', 'OFF', 0), 1 => Yii::t('app', 'ON', 0))
-                                ),
-                                'date_create' => array(
-                                    'type' => 'CJuiDatePicker',
-                                    'options' => array(
-                                        'dateFormat' => 'yy-mm-dd ' . date('H:i:s'),
-                                    ),
-                                    'htmlOptions' => array(
-                                        'value' => ($this->isNewRecord) ? date('Y-m-d H:i:s') : $this->date_create,
-                                    )
-                                ),
-                            ),
+                        'category_id' => array(
+                            'type' => 'dropdownlist',
+                            'items' => Html::listData(CategoriesModel::model()->findAll(), 'id', 'name'),
+                        ),
+                        'short_text' => array(
+                            'type' => 'textarea',
+                            'class' => 'editor'
+                        ),
+                        'full_text' => array(
+                            'type' => 'textarea',
+                            'class' => 'editor'
+                        ),
+                        'tags' => array(
+                            'type' => 'BootstrapTagInput',
+                            'htmlOptions' => array(
+                            //'defaultText'=>'lala'
+                            )
                         ),
                     ),
-                    'buttons' => array(
-                        'submit' => array(
-                            'type' => 'submit',
-                            'class' => 'btn btn-success',
-                            'label' => $this->isNewRecord ? Yii::t('app', 'CREATE', 0) : Yii::t('app', 'SAVE')
-                        )
-                    )
-                        ), $this);
+                ),
+                'seo' => array(
+                    'type' => 'form',
+                    'title' => $this->t('TAB_META'),
+                    'elements' => array(
+                        'seo_title' => array(
+                            'type' => 'text',
+                        ),
+                        'seo_keywords' => array(
+                            'type' => 'textarea',
+                        ),
+                        'seo_description' => array(
+                            'type' => 'textarea',
+                        ),
+                    ),
+                ),
+                'additional' => array(
+                    'type' => 'form',
+                    'title' => $this->t('TAB_ADDITIONALLY'),
+                    'elements' => array(
+                        'switch' => array(
+                            'type' => 'dropdownlist',
+                            'items' => array(0 => Yii::t('app', 'OFF', 0), 1 => Yii::t('app', 'ON', 0))
+                        ),
+                        'date_create' => array(
+                            'type' => 'CJuiDatePicker',
+                            'options' => array(
+                                'dateFormat' => 'yy-mm-dd ' . date('H:i:s'),
+                            ),
+                            'htmlOptions' => array(
+                                'value' => ($this->isNewRecord) ? date('Y-m-d H:i:s') : $this->date_create,
+                            )
+                        ),
+                    ),
+                ),
+            ),
+            'buttons' => array(
+                'submit' => array(
+                    'type' => 'submit',
+                    'class' => 'btn btn-success',
+                    'label' => $this->isNewRecord ? Yii::t('app', 'CREATE', 0) : Yii::t('app', 'SAVE')
+                )
+            )
+                ), $this);
     }
 
     public function getGridColumns() {
@@ -329,9 +328,9 @@ class News extends ActiveRecord {
 
 
         return new ActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                    'sort' => self::getCSort()
-                ));
+            'criteria' => $criteria,
+            'sort' => self::getCSort()
+        ));
     }
 
 }

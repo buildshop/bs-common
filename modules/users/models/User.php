@@ -21,7 +21,9 @@
  */
 class User extends ActiveRecord {
 
+    const route = '/users/admin/default';
     const MODULE_ID = 'users';
+
     public $new_password;
     public $confirm_password;
     // public $verifyCode;
@@ -84,6 +86,7 @@ class User extends ActiveRecord {
             ),
         );
     }
+
     public function groupBy($group_id) {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => 'group_id=:id',
@@ -91,6 +94,7 @@ class User extends ActiveRecord {
         ));
         return $this;
     }
+
     // class User
     public function getFullName() {
         return $this->login;
@@ -120,83 +124,82 @@ class User extends ActiveRecord {
     public function getForm() {
         Yii::import('zii.widgets.jui.CJuiDatePicker');
         return new CMSForm(array(
-                    'attributes' => array(
-                        'id' => __CLASS__,
-                        'class' => 'form-horizontal',
+            'attributes' => array(
+                'id' => __CLASS__,
+                'class' => 'form-horizontal',
+            ),
+            'enctype' => 'multipart/form-data',
+            'showErrorSummary' => false,
+            'elements' => array(
+                'login' => array(
+                    'type' => 'text',
+                    'disabled' => $this->isService,
+                    'afterField' => '<span class="fieldIcon icon-user"></span>'
+                ),
+                'username' => array(
+                    'type' => 'text',
+                    'afterField' => '<span class="fieldIcon icon-user"></span>'
+                ),
+                'email' => array(
+                    'type' => 'text',
+                    'afterField' => '<span class="fieldIcon icon-envelope"></span>'
+                ),
+                'address' => array('type' => 'text'),
+                'role' => array('type' => 'text'),
+                'phone' => array(
+                    'type' => 'text',
+                    'afterField' => '<span class="fieldIcon icon-phone"></span>'
+                ),
+                'subscribe' => array('type' => 'checkbox'),
+                'last_login' => array(
+                    'type' => 'CJuiDatePicker',
+                    'options' => array(
+                        'dateFormat' => 'yy-mm-dd ' . date('H:i:s'),
                     ),
-                    'enctype' => 'multipart/form-data',
-                    'showErrorSummary' => false,
-                    'elements' => array(
-                        'login' => array(
-                            'type' => 'text',
-                            'disabled' => $this->isService,
-                            'afterField' => '<span class="fieldIcon icon-user"></span>'
-                        ),
-                        'username' => array(
-                            'type' => 'text',
-                            'afterField' => '<span class="fieldIcon icon-user"></span>'
-                        ),
-                        'email' => array(
-                            'type' => 'text',
-                            'afterField' => '<span class="fieldIcon icon-envelope"></span>'
-                        ),
-                        'address' => array('type' => 'text'),
-                        'role' => array('type' => 'text'),
-                        'phone' => array(
-                            'type' => 'text',
-                            'afterField' => '<span class="fieldIcon icon-phone"></span>'
-                        ),
-                        'subscribe' => array('type' => 'checkbox'),
-                        'last_login' => array(
-                            'type' => 'CJuiDatePicker',
-                            'options' => array(
-                                'dateFormat' => 'yy-mm-dd ' . date('H:i:s'),
-                            ),
-                            'afterField' => '<span class="fieldIcon icon-calendar-2"></span>'
-                        ),
-                        'date_birthday' => array(
-                            'type' => 'CJuiDatePicker',
-                            'options' => array(
-                                'dateFormat' => 'yy-mm-dd',
-                            ),
-                            'afterField' => '<span class="fieldIcon icon-calendar-2"></span>'
-                        ),
-                        'timezone' => array(
-                            'type' => 'dropdownlist',
-                            'items' => TimeZoneHelper::getTimeZoneData()
-                        ),
-                        'language' => array(
-                            'type' => 'dropdownlist',
-                            'items' => Yii::app()->languageManager->getLangsByArray(),
-                            'empty' => 'По умолчанию',
-                        ),
-                        'gender' => array(
-                            'type' => 'dropdownlist',
-                            'items' => self::getSelectGender(),
-                            'disabled' => $this->isService
-                        ),
-                        'group_id' => array(
-                            'type' => 'dropdownlist',
-                            'items' => Html::listData(UserGroup::model()->findAll(), 'id', 'name'),
-
-                        ),
-                        'avatar' => array('type' => 'file', 'disabled' => $this->isService),
-                        // 'login_ip' => array('type' => 'text', 'disabled' => $this->isService),
-                        'new_password' => array(
-                            'type' => 'password',
-                            'disabled' => $this->isService,
-                            'afterField' => '<span class="fieldIcon icon-lock"></span>'
-                        ),
-                        'banned' => array('type' => 'checkbox'),
+                    'afterField' => '<span class="fieldIcon icon-calendar-2"></span>'
+                ),
+                'date_birthday' => array(
+                    'type' => 'CJuiDatePicker',
+                    'options' => array(
+                        'dateFormat' => 'yy-mm-dd',
                     ),
-                    'buttons' => array(
-                        'submit' => array(
-                            'type' => 'submit',
-                            'class' => 'btn btn-success',
-                            'label' => ($this->isNewRecord) ? Yii::t('app', 'CREATE', 1) : Yii::t('app', 'SAVE')
-                        ),
-                    )
-                        ), $this);
+                    'afterField' => '<span class="fieldIcon icon-calendar-2"></span>'
+                ),
+                'timezone' => array(
+                    'type' => 'dropdownlist',
+                    'items' => TimeZoneHelper::getTimeZoneData()
+                ),
+                'language' => array(
+                    'type' => 'dropdownlist',
+                    'items' => Yii::app()->languageManager->getLangsByArray(),
+                    'empty' => 'По умолчанию',
+                ),
+                'gender' => array(
+                    'type' => 'dropdownlist',
+                    'items' => self::getSelectGender(),
+                    'disabled' => $this->isService
+                ),
+                'group_id' => array(
+                    'type' => 'dropdownlist',
+                    'items' => Html::listData(UserGroup::model()->findAll(), 'id', 'name'),
+                ),
+                'avatar' => array('type' => 'file', 'disabled' => $this->isService),
+                // 'login_ip' => array('type' => 'text', 'disabled' => $this->isService),
+                'new_password' => array(
+                    'type' => 'password',
+                    'disabled' => $this->isService,
+                    'afterField' => '<span class="fieldIcon icon-lock"></span>'
+                ),
+                'banned' => array('type' => 'checkbox'),
+            ),
+            'buttons' => array(
+                'submit' => array(
+                    'type' => 'submit',
+                    'class' => 'btn btn-success',
+                    'label' => ($this->isNewRecord) ? Yii::t('app', 'CREATE', 1) : Yii::t('app', 'SAVE')
+                ),
+            )
+                ), $this);
     }
 
     public static function getRoles($user_id) {
@@ -374,8 +377,6 @@ class User extends ActiveRecord {
         }
     }
 
-
-
     /**
      * @return array relational rules.
      */
@@ -420,8 +421,8 @@ class User extends ActiveRecord {
         $criteria->compare('banned', $this->banned);
 
         return new ActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
+            'criteria' => $criteria,
+        ));
     }
 
     /**
