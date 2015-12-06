@@ -77,7 +77,7 @@ class User extends ActiveRecord {
             ),
             'DEFAULT_COLUMNS' => array(
                 array(
-                    'class' => 'SGridIdColumn',
+                    'class' => 'IdColumn',
                     'type' => 'raw',
                     'value' => '$data->isUserOnline($data->id)'
                 ),
