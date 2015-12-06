@@ -16,31 +16,31 @@ Yii::app()->getClientScript()
 
 </style>
 <div class="clearfix"></div>
-<table class="optionsEditTable table">
+<table class="optionsEditTable table table-striped">
     <thead>
         <tr>
-            <?php foreach (Yii::app()->languageManager->languages as $l): ?>
-                <td>
+            <?php foreach (Yii::app()->languageManager->languages as $l){ ?>
+                <th>
                     <?php echo CHtml::encode($l->name) ?>
-                </td>
-            <?php endforeach; ?>
-            <td class="text-center">
-                <a class="plusOne btn btn-success" style="color:#fff" href="javascript:void(0)">
-                    <i class="flaticon-add"></i>
+                </th>
+            <?php } ?>
+            <th class="text-center">
+                <a class="plusOne btn btn-success btn-sm" style="color:#fff" href="javascript:void(0)">
+                    Добавить
                 </a>
 
-            </td>
+            </th>
         </tr>
     </thead>
     <tbody>
         <tr class="copyMe">
 
-            <?php foreach (Yii::app()->languageManager->languages as $l): ?>
+            <?php foreach (Yii::app()->languageManager->languages as $l){ ?>
                 <td>
                     <input name="sample" type="text" class="value">
                 </td>
-            <?php endforeach; ?>
-            <td class="text-center"><a href="javascript:void(0);" class="deleteRow btn btn-danger"><i class="flaticon-delete2"></i></a>
+            <?php } ?>
+            <td class="text-center"><a href="javascript:void(0);" class="deleteRow btn btn-danger"><i class="flaticon-delete"></i></a>
 
             </td>
         </tr>
@@ -61,7 +61,7 @@ Yii::app()->getClientScript()
                         </td>
                     <?php endforeach; ?>
                     <td class="text-center">
-                        <a href="javascript:void(0);" class="deleteRow btn btn-danger"><i class="flaticon-delete2"></i></a>
+                        <a href="javascript:void(0);" class="deleteRow btn btn-danger"><i class="flaticon-delete"></i></a>
                     </td>
                 </tr>
                 <?php

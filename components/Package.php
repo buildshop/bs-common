@@ -2,54 +2,47 @@
 
 class Package extends CComponent {
 
-    public $cacheID = 'client';
-    public $expired;
-    public $plan;
-    public $service;
-    public $demo = true;
-    public $user_active = 0;
+    const CACHE_ID = 'client';
 
-    // public $capUrl = 'blocked/expired';
-
+ //   public $expired;
+  //  public $plan;
+ //   public $service;
+  //  public $demo = true;
+  //  public $user_active = 0;
+  //  public $shop_id;
+    public $value;
     public function init() {
         $result = array();
-        $value = Yii::app()->cache->get($this->cacheID);
-        if ($value === false) {
+        $this->value = Yii::app()->cache->get(self::CACHE_ID);
+        if ($this->value === false) {
 
             $user = BSUser::model()->findByPk(Yii::app()->params['client_id']);
-
-            $result['expired'] = $user->shop[0]->expired;
-            $result['plan'] = $user->shop[0]->plan;
-            $result['isdemo'] = $user->shop[0]->getIsDemo();
             $result['user_active'] = $user->active;
-            $this->expired = $result['expired'];
-            $this->plan = $result['plan'];
-            $this->demo = $result['isdemo'];
-            $this->user_active = $result['user_active'];
+            if (isset($user->shop)) {
+                foreach ($user->shop as $shop) {
+                    $result['shop'][] = array(
+                        'expired' => $shop->expired,
+                        'plan' => $shop->plan,
+                        'isdemo' => $shop->getIsDemo(),
+                        'id' => $shop->id
+                    );
+                }
+            }
 
-            Yii::app()->cache->set($this->cacheID, $result);
-        } else {
-            $rusCache = $this->getResult();
-            $this->expired = $rusCache['expired'];
-            $this->demo = $rusCache['isdemo'];
-            $this->plan = $rusCache['plan'];
-            $this->user_active = $rusCache['user_active'];
+
+
+            Yii::app()->cache->set(self::CACHE_ID, (object) $result);
         }
 
         //  $this->access();
         $this->blocked();
     }
 
-    public function getResult() {
-        return Yii::app()->cache->get($this->cacheID);
-    }
-
 
     private function blocked() {
-
-        if ((strtotime($this->expired) < time()) || !$this->result['user_active']) { // || $this->result['isdemo']
+        if ((strtotime($this->value->shop[0]['expired']) < time()) || !$this->value->user_active) { // || $this->result['isdemo']
             Yii::app()->controllerMap['blocked'] = 'app.MaintenanceMode.BlockedController';
-            $capUrl = ($this->result['isdemo']) ? 'blocked/index' : 'blocked/expired';
+            $capUrl = ($this->value->shop[0]['isdmo']) ? 'blocked/index' : 'blocked/expired';
             Yii::app()->catchAllRequest = array($capUrl);
         }
     }
@@ -62,7 +55,7 @@ class Package extends CComponent {
                 if (!Yii::app()->user->planPro[$mid]) {
                     Yii::app()->user->setFlash('error', Yii::t('plan', 'ERROR_ACCESS_MODULE', array(
                                 '{module}' => $mid
-                            )));
+                    )));
                     Yii::app()->controller->redirect('/admin/?d=1');
                 }
             }

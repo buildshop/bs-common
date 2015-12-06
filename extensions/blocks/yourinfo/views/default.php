@@ -13,7 +13,7 @@ if (Yii::app()->hasComponent('geoip')) {
         </div>
         <div class="panel-body panel-body-static">
             <ul class="list-unstyled">
-                <li>Тарифный план: <span class="label label-default"><?= $package->plan; ?></span></li>
+                <li>Тарифный план: <span class="label label-default"><?= $package->shop[0]->plan; ?></span></li>
                 <li><i class="flaticon-email"></i> <?= Yii::app()->user->getName() . ' ' . CMS::ip($ip); ?></li>
                 <li><i class="<?= $browserIcon ?>"></i> <?= $browser->getBrowser() ?> (<?= $browser->getVersion() ?>)</li>
                 <li><i class="<?= $platformIcon ?>"></i> <?= $browser->getPlatform() ?></li>

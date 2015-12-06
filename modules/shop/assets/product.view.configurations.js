@@ -80,8 +80,7 @@ $(document).ready(function(){
  * Recalculate product price on change variant or configurable options.
  * Sum product price + variant prices + configurable prices.
  */
-function recalculateProductPrice(el_clicked)
-{
+function recalculateProductPrice(){
     var result = parseFloat($('#product_price').val());
 
     // Update price
@@ -108,9 +107,10 @@ function recalculateProductPrice(el_clicked)
             }
         }
     });
-
+    console.log($('#currency_rate').val());
     // Apply current currency
     result = result * parseFloat($('#currency_rate').val());
+    console.log(result);
     $('#productPrice').html(getPrice(result.toFixed(2)));
 }
 

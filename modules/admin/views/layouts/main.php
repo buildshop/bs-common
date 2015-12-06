@@ -213,7 +213,7 @@ var yandex_translate_apikey = '" . yandexTranslate::API_KEY . "';
 
 
 
-                                    <?php if ($package->demo) { ?>
+                                    <?php if ($package->value->shop[0]['isdemo']) { ?>
                                         <div class="alert alert-danger"><b>Внимание!</b> Вы используете пробную версию тарифного пакета "<?= strtoupper($package->plan) ?>", сайт прекратит работу <?= $package->expired ?></div>
                                     <?php } ?>
                                     <?php

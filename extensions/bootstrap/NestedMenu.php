@@ -31,10 +31,10 @@ class NestedMenu extends CMenu {
 
     protected function getMyItems() {
         $model = ShopCategory::model()->findByPk(1);
-       // print_r($model);
-      //  die;
+        if($model){
         $result = $model->menuArray();
         return $result['items'];
+        }
     }
 /*
     protected function renderMenuRecursive($items) {

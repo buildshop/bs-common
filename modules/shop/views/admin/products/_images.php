@@ -25,20 +25,7 @@
 <div class="clearfix"></div>
 
 <?php
-/* $this->widget('xupload.XUpload', array(
-  'url' => Yii::app()->createUrl("admin/shop/products/upload"),
-  // 'url' => Yii::app()->createUrl("admin/shop/products/getImages/?id=2"),
-  'model' => $uploadModel,
-  'attribute' => 'files',
-  'multiple' => true,
-  )); */
-
-/**
- * Images tabs
- */
 Yii::import('ext.jqPrettyPhoto');
-//Yii::import('application.modules.shop.components.ShopImagesConfig');
-// Register view styles
 Yii::app()->getClientScript()->registerCss('infoStyles', "
 	table.imagesList {
                 border: 1px solid #dddddd;
@@ -95,7 +82,7 @@ if ($model->images) {
                 ));
                 ?>
                 <div class="input-group">
-                    <?php echo Html::textField('image_titles[' . $image->id . ']', $image->title, array('placeholder' => 'Image name', 'class' => 'form-control')); ?>
+                    <?php echo Html::textField('image_titles[' . $image->id . ']', $image->title, array('placeholder' => 'Название изображение', 'class' => 'form-control')); ?>
                     <span class="input-group-btn">
                         <?php
                         echo Html::ajaxLink('<i class="flaticon-delete"></i>', $this->createUrl('deleteImage', array('id' => $image->id)), array(

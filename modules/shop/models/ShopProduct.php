@@ -114,7 +114,10 @@ class ShopProduct extends ActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
-
+    public function getAutoSku(){
+        $pack = Yii::app()->package->value;
+        return 'BS'.$pack->shop[0]['id'].'-'.sprintf("%07d",$this->id);
+    }
     public function getProductLabel() {
         $result = array();
         $result['label'] = Yii::t('app', 'PRODUCT_LABEL', $this->label);

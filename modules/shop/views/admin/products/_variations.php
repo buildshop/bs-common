@@ -3,9 +3,9 @@ Yii::app()->getClientScript()->registerScriptFile($this->module->assetsUrl . '/a
 ?>
 <div class="clearfix"></div>
 <div class="variants">
-    <div class="formRow">
-        <div class="grid2"><label>Добавить атрибут</label></div>
-        <div class="grid10">     
+    <div class="form-group">
+        <div class="col-sm-4"><label>Добавить атрибут</label></div>
+        <div class="col-sm-8">     
             <?php
             if ($model->type) {
                 $attributes = $model->type->shopConfigurableAttributes;

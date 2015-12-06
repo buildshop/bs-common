@@ -23,12 +23,12 @@ class BaseUser extends WebUser {
     }
 
     public function getPlan() {
-        $pack = Yii::app()->package;
-        if ($pack->plan == 'pro') {
+        $pack = Yii::app()->package->value;
+        if ($pack->shop[0]['plan'] == 'pro') {
             return $this->getPlanPro();
-        } elseif ($pack->plan == 'lite') {
+        } elseif ($pack->shop[0]['plan'] == 'lite') {
             return $this->getPlanLite();
-        } elseif ($pack->plan == 'standart') {
+        } elseif ($pack->shop[0]['plan'] == 'standart') {
             return $this->getPlanStandart();
         } else {
             throw new CHttpException(500, 'Error plan USER');
