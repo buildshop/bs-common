@@ -204,7 +204,7 @@ class ProductsController extends AdminController {
               } */
 
             if ($model->validate() && $this->validateAttributes($model)) {
-                $model->saveImage('image', 'webroot.uploads.product', $oldImage);
+                $model->uploadFile('image', 'webroot.uploads.product', $oldImage);
                 $model->save();
                 // Process categories
                 $mainCategoryId = 1;

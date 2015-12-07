@@ -327,11 +327,11 @@ class User extends ActiveRecord {
             array('login, group_id', 'required'),
             array('login', 'checkIfAvailable'),
             array('banned', 'boolean'),
-            array('avatar', 'file',
+            array('avatar', 'FileValidator',
                 'types' => $config['users'],
                 'allowEmpty' => true,
                 'maxSize' => $config['upload_size'],
-                'wrongType' => Yii::t('core', 'WRONG_TYPES', array('{TYPES}' => $config['upload_types']))
+                 'wrongType' => Yii::t('core', 'WRONG_TYPES', array('{TYPES}' => $config['upload_types']))
             ),
             array('email', 'email'),
             array('date_registration', 'required', 'on' => 'update'),

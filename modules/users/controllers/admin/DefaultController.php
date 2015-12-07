@@ -7,7 +7,6 @@
  * @package modules.users.controllers.admin
  * @uses AdminController
  */
-
 class DefaultController extends AdminController {
 
     public function actions() {
@@ -38,8 +37,6 @@ class DefaultController extends AdminController {
         ));
     }
 
-
-
     /**
      * Создание/редактирование пользователя
      * @param boolean $new
@@ -59,7 +56,7 @@ class DefaultController extends AdminController {
         if (Yii::app()->request->isPostRequest) {
             $model->attributes = $_POST['User'];
             if ($model->validate()) {
-                      $model->saveImage('avatar','webroot.uploads.users.avatar',$oldImage);
+                $model->uploadFile('avatar', 'webroot.uploads.users.avatar', $oldImage);
                 $model->save();
 
                 if ($new === true)

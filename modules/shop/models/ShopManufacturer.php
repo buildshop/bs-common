@@ -152,11 +152,10 @@ class ShopManufacturer extends ActiveRecord {
             //array('removeImage', 'boolean'),
             array('description, image', 'type', 'type' => 'string'),
             array('name, seo_alias, seo_title, seo_keywords, seo_description, image', 'length', 'max' => 255),
-            array('image', 'file', 'types' => 'jpg, gif, png',
+            array('image', 'FileValidator',
+                'types' => 'jpg, gif, png',
                 'allowEmpty' => true,
-                'safe' => true,
-                'maxSize' => 1024 * 1024 * 50,
-                'tooLarge' => 'File has to be smaller than 50MB'
+                'maxSize' => 10000
             ),
             array('id, name, image, seo_alias, description, seo_title, seo_keywords, seo_description, ordern', 'safe', 'on' => 'search'),
         );

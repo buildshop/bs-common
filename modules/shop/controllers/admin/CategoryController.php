@@ -40,7 +40,7 @@ class CategoryController extends AdminController {
             $model->attributes = $_POST['ShopCategory'];
 
             if ($model->validate()) {
-                $model->saveImage('image', 'webroot.uploads.categories', $oldImage);
+                $model->uploadFile('image', 'webroot.uploads.categories', $oldImage);
 
                 if (isset($_GET['parent_id'])) {
                     $parent = ShopCategory::model()

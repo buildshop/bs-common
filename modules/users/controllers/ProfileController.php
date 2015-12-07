@@ -11,7 +11,7 @@ class ProfileController extends Controller {
 
     public function actions() {
         return array(
-          //  'widget.' => 'mod.users.widgets.webcam.Webcam',
+            //  'widget.' => 'mod.users.widgets.webcam.Webcam',
             'getAvatars' => array(
                 'class' => 'mod.users.actions.AvatarAction',
             ),
@@ -65,25 +65,25 @@ class ProfileController extends Controller {
                 //$user->email = isset($_POST['User']['email']) ? $_POST['User']['email'] : null;
 
 
-                
+
                 if ($user->validate()) {
-                    /*$file = CUploadedFile::getInstance($user, 'avatar');
-                    if (isset($file) && !empty($file)) {
-                        var_dump($file);
-                        $path = Yii::getPathOfAlias('webroot.uploads.users.avatar');
-                        if (isset($oldAvatar) && file_exists($path . DS . $oldAvatar)) {
-                            unlink($path . DS . $oldAvatar);
-                        }
-                        $newFile = time() . "." . $file->getExtensionName();
-                        Yii::app()->img
-                                ->load($file->tempName)
-                                ->thumb(100, 100)
-                                ->save($path . DS . $newFile, false, 100);
-                        $user->avatar = $newFile;
-                    }else{
-                        $user->avatar = $oldAvatar;
-                    }*/
-                    $user->saveImage('avatar','webroot.uploads.users.avatar',$oldAvatar);
+                    /* $file = CUploadedFile::getInstance($user, 'avatar');
+                      if (isset($file) && !empty($file)) {
+                      var_dump($file);
+                      $path = Yii::getPathOfAlias('webroot.uploads.users.avatar');
+                      if (isset($oldAvatar) && file_exists($path . DS . $oldAvatar)) {
+                      unlink($path . DS . $oldAvatar);
+                      }
+                      $newFile = time() . "." . $file->getExtensionName();
+                      Yii::app()->img
+                      ->load($file->tempName)
+                      ->thumb(100, 100)
+                      ->save($path . DS . $newFile, false, 100);
+                      $user->avatar = $newFile;
+                      }else{
+                      $user->avatar = $oldAvatar;
+                      } */
+                    $user->uploadFile('avatar', 'webroot.uploads.users.avatar', $oldAvatar);
                     $user->save();
                     // $this->refresh();
                 }
@@ -98,7 +98,7 @@ class ProfileController extends Controller {
                         $forum->changepassword($user->login, $changePasswordForm->new_password, $user->email);
                     }
                     $this->addFlashMessage(Yii::t('UsersModule.default', 'Пароль успешно изменен.'));
-                    $this->redirect('post/read',array('#'=>'chagepass'));
+                    $this->redirect('post/read', array('#' => 'chagepass'));
                 }
             }
 
@@ -130,7 +130,7 @@ class ProfileController extends Controller {
 
             $this->render('index', array(
                 'user' => $user,
-                 'tabs' => $tabs,
+                'tabs' => $tabs,
                 'changePasswordForm' => $changePasswordForm
             ));
         } else {

@@ -4,7 +4,6 @@
  * ActiveRecord class
  * 
  */
-
 Yii::import('app.traits.ModelTranslate');
 
 class ActiveRecord extends CActiveRecord {
@@ -31,12 +30,12 @@ class ActiveRecord extends CActiveRecord {
             return Yii::app()->createUrl(static::route . '/' . static::route_delete, array(
                         'model' => get_class($this),
                         'id' => $this->id
-                    ));
+            ));
         } else {
             throw new Exception(Yii::t('app', 'Unknown const {param} in model {model}', array(
-                        '{param}' => 'route_delete',
-                        '{model}' => get_class($this)
-                    )));
+                '{param}' => 'route_delete',
+                '{model}' => get_class($this)
+            )));
         }
     }
 
@@ -48,12 +47,12 @@ class ActiveRecord extends CActiveRecord {
         if (static::route) {
             return Yii::app()->createUrl(static::route . '/' . static::route_update, array(
                         'id' => $this->id
-                    ));
+            ));
         } else {
             throw new Exception(Yii::t('app', 'Unknown const {param} in model {model}', array(
-                        '{param}' => 'route_update',
-                        '{model}' => get_class($this)
-                    )));
+                '{param}' => 'route_update',
+                '{model}' => get_class($this)
+            )));
         }
     }
 
@@ -67,52 +66,35 @@ class ActiveRecord extends CActiveRecord {
                         'model' => get_class($this),
                         'switch' => 0,
                         'id' => $this->id
-                    ));
+            ));
         } else {
             throw new Exception(Yii::t('app', 'Unknown const {param} in model {model}', array(
-                        '{param}' => 'route_switch',
-                        '{model}' => get_class($this)
-                    )));
+                '{param}' => 'route_switch',
+                '{model}' => get_class($this)
+            )));
         }
     }
 
-    public function saveImage($attr, $dir, $old_image = null) {
+    public function uploadFile($attr, $dir, $old_image = null) {
         $file = CUploadedFile::getInstance($this, $attr);
         $path = Yii::getPathOfAlias($dir) . DS;
 
         if (isset($file)) {
+            
             if ($old_image)
                 unlink($path . $old_image);
+            
             $newname = CMS::gen(10) . "." . $file->extensionName;
 
             $img = Yii::app()->img;
             $img->load($file->tempName);
             $img->save($path . $newname);
-            $this->$attr = (string)$newname;
+            $this->$attr = (string) $newname;
         } else {
-
-            $this->$attr = (string)$old_image;
+            $this->$attr = (string) $old_image;
         }
-
     }
-    public function saveImage1($attr, $dir, $old_image) {
-        $file = CUploadedFile::getInstance($this, $attr);
-        $path = Yii::getPathOfAlias($dir) . DS;
-        if ($file) {
-            if ($old_image) {
-                if (file_exists($path . $old_image))
-                    unlink($path . $old_image);
-            }
-            $newname = CMS::gen(10) . "." . $file->extensionName;
-            $img = Yii::app()->img;
-            $img->load($file->tempName);
-            $img->save($path . $newname);
-            $this->$attr = $newname;
-        } else {
-            $this->$attr = $old_image;
-        }
 
-    }
     public function getColumnSearch($array = array()) {
 
         $col = $this->gridColumns;

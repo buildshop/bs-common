@@ -134,7 +134,11 @@ class ShopCategory extends ActiveRecord {
     public function rules() {
         return array(
             array('name, seo_alias', 'required'),
-            array('image', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true, 'safe' => true),
+            array('image', 'FileValidator',
+                'types' => 'jpg, gif, png',
+                'allowEmpty' => true,
+                'maxSize' => 10000
+            ),
             array('seo_alias', 'translitFilter', 'translitAttribute' => 'name'),
             array('name, seo_alias, seo_keywords, seo_title, seo_description, image', 'length', 'max' => 255),
             array('description, seo_title, seo_keywords, seo_description, image', 'type', 'type' => 'string'),

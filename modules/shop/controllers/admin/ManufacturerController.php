@@ -36,8 +36,8 @@ class ManufacturerController extends AdminController {
             array('label' => Yii::t('ShopModule.admin', 'Добавить производителя'),
                 'url' => $this->createUrl('create'),
                 'htmlOptions' => array('class' => 'btn btn-success')
-                )
-            );
+            )
+        );
 
         $dataProvider = $model->orderByName()->search();
 
@@ -59,27 +59,27 @@ class ManufacturerController extends AdminController {
             $model = new ShopManufacturer;
         } else {
             $model = ShopManufacturer::model()
-                    //->language(Yii::app()->language->active->id)
                     ->findByPk($_GET['id']);
         }
         $this->topButtons = false;
         if (!$model)
             throw new CHttpException(404, Yii::t('ShopModule.admin', 'NO_FOUND_BRAND'));
+
         $oldImage = $model->image;
 
-        $this->pageName = ($model->isNewRecord) ? $model->t('PAGE_NAME', 0) : $model->t('PAGE_NAME', 1);
+        $this->pageName = ($model->isNewRecord) ? $model::t('PAGE_NAME', 0) : $model::t('PAGE_NAME', 1);
 
         $this->breadcrumbs = array(
             Yii::t('ShopModule.default', 'MODULE_NAME') => array('/admin/shop'),
             Yii::t('ShopModule.admin', 'BRANDS') => $this->createUrl('index'),
             $this->pageName
         );
+        
         if (isset($_POST['ShopManufacturer'])) {
             $model->attributes = $_POST['ShopManufacturer'];
 
             if ($model->validate()) {
-                //$model->image='laslsalsa';
-                $model->saveImage('image', 'webroot.uploads.manufacturer', $oldImage);
+                $model->uploadFile('image', 'webroot.uploads.manufacturer', $oldImage);
                 $model->save();
             }
         }
