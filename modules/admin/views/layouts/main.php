@@ -214,7 +214,7 @@ var yandex_translate_apikey = '" . yandexTranslate::API_KEY . "';
 
 
                                     <?php if ($package->value->shop[0]['isdemo']) { ?>
-                                        <div class="alert alert-danger"><b>Внимание!</b> Вы используете пробную версию тарифного пакета "<?= strtoupper($package->plan) ?>", сайт прекратит работу <?= $package->expired ?></div>
+                                        <div class="alert alert-danger"><b>Внимание!</b> Вы используете пробную версию тарифного пакета "<?= strtoupper($package->value->shop[0]['plan']) ?>", сайт прекратит работу <?= $package->value->shop[0]['expired'] ?></div>
                                     <?php } ?>
                                     <?php
                                     if (Yii::app()->user->hasFlash('error')) {
@@ -226,21 +226,6 @@ var yandex_translate_apikey = '" . yandexTranslate::API_KEY . "';
                                     ?>
 
                                     <?= $content ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                 </div>
                             </div> 

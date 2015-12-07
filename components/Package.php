@@ -4,13 +4,8 @@ class Package extends CComponent {
 
     const CACHE_ID = 'client';
 
- //   public $expired;
-  //  public $plan;
- //   public $service;
-  //  public $demo = true;
-  //  public $user_active = 0;
-  //  public $shop_id;
     public $value;
+
     public function init() {
         $result = array();
         $this->value = Yii::app()->cache->get(self::CACHE_ID);
@@ -28,16 +23,12 @@ class Package extends CComponent {
                     );
                 }
             }
-
-
-
             Yii::app()->cache->set(self::CACHE_ID, (object) $result);
         }
 
         //  $this->access();
         $this->blocked();
     }
-
 
     private function blocked() {
         if ((strtotime($this->value->shop[0]['expired']) < time()) || !$this->value->user_active) { // || $this->result['isdemo']

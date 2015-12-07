@@ -189,15 +189,13 @@ class BaseUser extends WebUser {
         return $this->_model->service;
     }
 
-
     /**
      * Load user model
      */
     private function _loadModel() {
         if (!$this->_model)
             $this->_model = User::model()
-                    //->cache(Yii::app()->controller->cacheTime)
-            ->with('group')
+                    ->with('group')
                     ->findByPk($this->id);
     }
 
