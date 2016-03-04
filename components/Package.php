@@ -7,27 +7,30 @@ class Package extends CComponent {
     public $value;
 
     public function init() {
-        $result = array();
         $this->value = Yii::app()->cache->get(self::CACHE_ID);
         if ($this->value === false) {
-
-            $user = BSUser::model()->findByPk(Yii::app()->params['client_id']);
-            $result['user_active'] = $user->active;
-            if (isset($user->shop)) {
-                foreach ($user->shop as $shop) {
-                    $result['shop'][] = array(
-                        'expired' => $shop->expired,
-                        'plan' => $shop->plan,
-                        'isdemo' => $shop->getIsDemo(),
-                        'id' => $shop->id
-                    );
-                }
-            }
-            Yii::app()->cache->set(self::CACHE_ID, (object) $result);
+            Yii::app()->cache->set(self::CACHE_ID, $this->getData());
         }
-
+        $this->value = $this->getData();
         //  $this->access();
         $this->blocked();
+    }
+
+    private function getData() {
+        $result = array();
+        $user = BSUser::model()->findByPk(Yii::app()->params['client_id']);
+        $result['user_active'] = $user->active;
+        if (isset($user->shop)) {
+            foreach ($user->shop as $shop) {
+                $result['shop'][] = array(
+                    'expired' => $shop->expired,
+                    'plan' => $shop->plan,
+                    'isdemo' => $shop->getIsDemo(),
+                    'id' => $shop->id
+                );
+            }
+        }
+        return (object) $result;
     }
 
     private function blocked() {

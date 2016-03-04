@@ -26,7 +26,7 @@ class ShopCurrency extends ActiveRecord {
             ),
             array('name' => 'rate', 'value' => '$data->rate'),
             array('name' => 'rate_old', 'value' => '$data->rate_old'),
-            array('name' => 'symbol', 'value' => '$data->symbol'),
+            array('name' => 'symbol', 'value' => '$data->symbol','htmlOptions'=>array('class'=>'text-center')),
             array(
                 'name' => 'main',
                 'filter' => array(1 => Yii::t('app', 'YES'), 0 => Yii::t('app', 'NO')),

@@ -285,8 +285,7 @@ class DbConnection extends CDbConnection {
                 $this->initConnection($this->_pdo);
                 $this->_active = true;
             } catch (PDOException $e) {
-
-                Yii::app()->request->redirect('/install.php/');
+                throw new CException('Connect DB error: '.$e->getMessage());
             }
         }
     }
